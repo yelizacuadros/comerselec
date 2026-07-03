@@ -14,6 +14,9 @@
                 <li><a href="index.php?action=categories">Gestión Categorías</a></li>
                 <li><a href="index.php?action=products" style="background-color: rgba(255,255,255,0.1); color: white;">Gestión Productos</a></li>
                 <li><a href="index.php?action=catalog" target="_blank">Ver Catálogo Público</a></li>
+                <?php if(isset($_SESSION['user_role']) && in_array($_SESSION['user_role'], ['Administrador', 'Ventas'])): ?>
+                <li><a href="index.php?action=messages">Ver Mensajes</a></li>
+                <?php endif; ?>
                 <li><a href="index.php?action=logout" style="color: #e74c3c;">Cerrar Sesión</a></li>
             </ul>
         </aside>
@@ -51,13 +54,18 @@
 
                     <div class="form-group" style="display: flex; gap: 20px;">
                         <div style="flex: 1;">
-                            <label>Precio ($)</label>
-                            <input type="number" step="0.01" min="0" name="price" id="prod_price" class="form-control" value="<?php echo isset($this->product->price) ? $this->product->price : ''; ?>" required>
+                            <label>Precio ($) <?php echo (isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'Ventas') ? '<small style="color:red;">(Solo lectura)</small>' : ''; ?></label>
+                            <input type="number" step="0.01" min="0" name="price" id="prod_price" class="form-control" value="<?php echo isset($this->product->price) ? $this->product->price : ''; ?>" <?php echo (isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'Ventas') ? 'readonly' : 'required'; ?>>
                         </div>
                         <div style="flex: 1;">
                             <label>Stock</label>
                             <input type="number" min="0" name="stock" id="prod_stock" class="form-control" value="<?php echo isset($this->product->stock) ? $this->product->stock : '0'; ?>" required>
                         </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>URL de la Imagen (Opcional)</label>
+                        <input type="url" name="image_url" class="form-control" value="<?php echo isset($this->product->image_url) ? htmlspecialchars($this->product->image_url) : ''; ?>" placeholder="https://ejemplo.com/imagen.jpg">
                     </div>
 
                     <button type="submit" class="btn btn-primary">Guardar Producto</button>

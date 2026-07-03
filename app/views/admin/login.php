@@ -28,10 +28,11 @@
                 <input type="password" name="password" id="password" class="form-control" required>
             </div>
             <button type="submit" class="btn btn-primary" style="width: 100%;">Ingresar</button>
+            <div class="form-group" style="text-align: center; margin-top: 15px;">
+                <a href="index.php?action=register" style="margin-right: 15px;">Registrarse</a>
+                <a href="index.php?action=catalog">Volver al catálogo</a>
+            </div>
         </form>
-        <div style="text-align: center; margin-top: 15px;">
-            <a href="index.php?action=catalog">Volver al catálogo</a>
-        </div>
     </div>
     <script src="js/main.js"></script>
 </body>

@@ -8,7 +8,7 @@
 <body>
     <div class="admin-layout">
         <aside class="admin-sidebar">
-            <h2>COMERSELEC Admin</h2>
+            <h2>COMERSELEC<br><span style="font-size: 16px; color: var(--light-blue); font-weight: normal;"><?php echo isset($_SESSION['username']) ? htmlspecialchars($_SESSION['username']) : 'Admin'; ?></span></h2>
             <ul class="admin-nav">
                 <li><a href="index.php?action=dashboard">Dashboard</a></li>
                 <li><a href="index.php?action=categories">Gestión Categorías</a></li>
@@ -24,15 +24,27 @@
                 <div>Usuario Activo</div>
             </div>
             
-            <div style="background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05);">
-                <h3>Bienvenido al Panel de Administración</h3>
-                <p style="margin-top: 10px;">Desde aquí puedes gestionar todo el inventario de materiales eléctricos. Los cambios que realices se reflejarán automáticamente en el catálogo público.</p>
-                <br>
-                <div style="display: flex; gap: 20px;">
-                    <a href="index.php?action=categories_add" class="btn btn-primary">Añadir Categoría</a>
-                    <a href="index.php?action=products_add" class="btn btn-secondary">Añadir Producto</a>
-                </div>
-            </div>
+            <div class="dashboard-container">
+        <h2>Panel de Control</h2>
+        <p>Bienvenido al sistema de administración. Rol actual: <strong><?php echo isset($_SESSION['user_role']) ? htmlspecialchars($_SESSION['user_role']) : 'Administrador'; ?></strong></p>
+        
+        <div class="dashboard-menu">
+            <a href="index.php?action=categories" class="dashboard-card">
+                <h3>Gestionar Categorías</h3>
+                <p>Añadir, editar o eliminar categorías.</p>
+            </a>
+            
+            <a href="index.php?action=products" class="dashboard-card">
+                <h3>Gestionar Productos</h3>
+                <p>Añadir, editar o eliminar productos.</p>
+            </a>
+
+            <a href="index.php?action=messages" class="dashboard-card">
+                <h3>Mensajes de Clientes</h3>
+                <p>Ver mensajes enviados desde Contacto.</p>
+            </a>
+        </div>
+    </div>
         </main>
     </div>
 </body>

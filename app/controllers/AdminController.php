@@ -3,12 +3,14 @@ require_once 'app/config/database.php';
 require_once 'app/models/Category.php';
 require_once 'app/models/Product.php';
 require_once 'app/models/User.php';
+require_once 'app/models/Message.php';
 
 class AdminController {
     private $db;
     private $category;
     private $product;
     private $user;
+    private $message;
 
     public function __construct() {
         $database = new Database();
@@ -16,6 +18,7 @@ class AdminController {
         $this->category = new Category($this->db);
         $this->product = new Product($this->db);
         $this->user = new User($this->db);
+        $this->message = new Message($this->db);
         
         session_start();
     }
@@ -24,7 +27,8 @@ class AdminController {
         $action = isset($_GET['action']) ? $_GET['action'] : 'dashboard';
         
         // Excepciones para no estar logueado
-        if(!isset($_SESSION['user_id']) && $action != 'login') {
+        $public_actions = ['login', 'register'];
+        if(!isset($_SESSION['user_id']) && !in_array($action, $public_actions)) {
             header("Location: index.php?action=login");
             exit();
         }
@@ -32,6 +36,9 @@ class AdminController {
         switch($action) {
             case 'login':
                 $this->login();
+                break;
+            case 'register':
+                $this->register();
                 break;
             case 'logout':
                 $this->logout();
@@ -63,6 +70,9 @@ class AdminController {
             case 'products_delete':
                 $this->products_delete();
                 break;
+            case 'messages':
+                $this->messages();
+                break;
             default:
                 $this->dashboard();
                 break;
@@ -76,6 +86,8 @@ class AdminController {
             $this->user->password = $_POST['password'];
             if($this->user->login()) {
                 $_SESSION['user_id'] = $this->user->id;
+                $_SESSION['user_role'] = $this->user->role;
+                $_SESSION['username'] = $this->user->username;
                 header("Location: index.php?action=dashboard");
                 exit();
             } else {
@@ -83,6 +95,23 @@ class AdminController {
             }
         }
         require_once 'app/views/admin/login.php';
+    }
+
+    private function register() {
+        $error = "";
+        $success = "";
+        if($_POST) {
+            $this->user->username = $_POST['username'];
+            $this->user->password = $_POST['password'];
+            $this->user->role = $_POST['role'];
+            
+            if($this->user->register()) {
+                $success = "Usuario registrado con éxito. Puedes iniciar sesión.";
+            } else {
+                $error = "Error al registrar el usuario.";
+            }
+        }
+        require_once 'app/views/admin/register.php';
     }
 
     private function logout() {
@@ -93,6 +122,13 @@ class AdminController {
 
     private function dashboard() {
         require_once 'app/views/admin/dashboard.php';
+    }
+
+    // --- MESSAGES (Contact) ---
+    private function messages() {
+        $stmt = $this->message->readAll();
+        $messages = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        require_once 'app/views/admin/messages.php';
     }
 
     // --- CATEGORIES CRUD ---
@@ -151,12 +187,13 @@ class AdminController {
             $this->product->description = $_POST['description'];
             $this->product->price = $_POST['price'];
             $this->product->stock = $_POST['stock'];
+            $this->product->image_url = $_POST['image_url'];
+            
             if($this->product->create()) {
                 header("Location: index.php?action=products");
                 exit();
             }
         }
-        // Load categories for dropdown
         $stmt_cat = $this->category->readAll();
         $categories = $stmt_cat->fetchAll(PDO::FETCH_ASSOC);
         require_once 'app/views/admin/products_form.php';
@@ -164,21 +201,29 @@ class AdminController {
 
     private function products_edit() {
         $this->product->id = isset($_GET['id']) ? $_GET['id'] : die('Error: ID no encontrado.');
-        
+        $this->product->readOne(); // Load current data
+        $current_price = $this->product->price;
+
         if($_POST) {
             $this->product->category_id = $_POST['category_id'];
             $this->product->name = $_POST['name'];
             $this->product->description = $_POST['description'];
-            $this->product->price = $_POST['price'];
             $this->product->stock = $_POST['stock'];
+            $this->product->image_url = $_POST['image_url'];
+            
+            // Restricción: Si es Ventas, no puede editar el precio (usamos el actual)
+            if(isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'Ventas') {
+                $this->product->price = $current_price;
+            } else {
+                $this->product->price = $_POST['price'];
+            }
+
             if($this->product->update()) {
                 header("Location: index.php?action=products");
                 exit();
             }
-        } else {
-            $this->product->readOne();
         }
-        // Load categories for dropdown
+        
         $stmt_cat = $this->category->readAll();
         $categories = $stmt_cat->fetchAll(PDO::FETCH_ASSOC);
         require_once 'app/views/admin/products_form.php';

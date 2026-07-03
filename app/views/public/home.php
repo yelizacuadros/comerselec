@@ -16,8 +16,10 @@
             </div>
             <nav class="main-nav">
                 <ul>
-                    <li><a href="index.php?action=catalog">INICIO / CATÁLOGO</a></li>
-                    <li><a href="index.php?action=login" class="btn-login">ADMINISTRACIÓN</a></li>
+                    <li><a href="index.php?action=catalog">CATÁLOGO</a></li>
+                    <li><a href="index.php?action=about">NOSOTROS</a></li>
+                    <li><a href="index.php?action=contact">CONTACTO</a></li>
+                    <li><a href="index.php?action=login" class="btn-login">Iniciar Sesión</a></li>
                 </ul>
             </nav>
         </div>
@@ -44,8 +46,10 @@
             <?php if(count($products) > 0): ?>
                 <?php foreach($products as $prod): ?>
                     <div class="product-card">
-                        <div class="product-img-placeholder">
-                            <span>⚡</span>
+                        <div class="product-img-placeholder" style="<?php if(!empty($prod['image_url'])) echo 'background-image: url('.htmlspecialchars($prod['image_url']).'); background-size: cover; background-position: center;'; ?>">
+                            <?php if(empty($prod['image_url'])): ?>
+                                <span>⚡</span>
+                            <?php endif; ?>
                         </div>
                         <div class="product-info">
                             <span class="category-badge"><?php echo htmlspecialchars($prod['category_name']); ?></span>
