@@ -20,7 +20,7 @@
 
         <form action="index.php?action=login" method="POST" id="loginForm">
             <div class="form-group">
-                <label>Usuario:</label>
+                <label >Usuario:</label>
                 <input type="text" name="username" id="username" class="form-control" required>
             </div>
             <div class="form-group">

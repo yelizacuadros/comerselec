@@ -97,22 +97,26 @@ class AdminController {
         require_once 'app/views/admin/login.php';
     }
 
-    private function register() {
-        $error = "";
-        $success = "";
-        if($_POST) {
-            $this->user->username = $_POST['username'];
-            $this->user->password = $_POST['password'];
-            $this->user->role = $_POST['role'];
-            
-            if($this->user->register()) {
-                $success = "Usuario registrado con éxito. Puedes iniciar sesión.";
-            } else {
-                $error = "Error al registrar el usuario.";
-            }
+    private function register() { //Evalua si el usuario ya existe
+    $error = ""; 
+    $success = "";
+
+    if($_POST) {
+        $this->user->username = $_POST['username'];
+        $this->user->password = $_POST['password'];
+        $this->user->role = $_POST['role'];
+
+        $resultado = $this->user->register();
+
+        if($resultado == "Usuario registrado correctamente") {
+            $success = $resultado;
+        } else {
+            $error = $resultado;
         }
-        require_once 'app/views/admin/register.php';
     }
+
+    require_once 'app/views/admin/register.php';
+}
 
     private function logout() {
         session_destroy();

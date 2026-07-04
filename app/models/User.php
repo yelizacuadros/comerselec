@@ -30,22 +30,41 @@ class User {
         return false;
     }
 
-    public function register() {
-        $query = "INSERT INTO " . $this->table_name . " SET username=:username, password=:password, role=:role";
+    public function register() { //Evalua si el usuario ya existe
+        // Validar campos vacios
+        if (empty($this->username) || empty($this->password) || empty($this->role)) {
+            return "Complete todos los campos";
+        }
+
+        // Verificar si el usuario ya existe
+        $check = "SELECT id FROM " . $this->table_name . " WHERE username = :username LIMIT 1";
+        $stmt = $this->conn->prepare($check);
+        $stmt->bindParam(":username", $this->username);
+        $stmt->execute();
+
+        if ($stmt->rowCount() > 0) {
+            return "Ese usuario ya existe";
+        }
+
+        // Registrar usuario
+        $query = "INSERT INTO " . $this->table_name . "
+                SET username=:username, password=:password, role=:role";
+
         $stmt = $this->conn->prepare($query);
 
-        $this->username=htmlspecialchars(strip_tags($this->username));
-        $this->password=password_hash($this->password, PASSWORD_BCRYPT);
-        $this->role=htmlspecialchars(strip_tags($this->role));
+        $this->username = htmlspecialchars(strip_tags($this->username));
+        $this->password = password_hash($this->password, PASSWORD_BCRYPT);
+        $this->role = htmlspecialchars(strip_tags($this->role));
 
         $stmt->bindParam(":username", $this->username);
         $stmt->bindParam(":password", $this->password);
         $stmt->bindParam(":role", $this->role);
 
-        if($stmt->execute()){
-            return true;
+        if ($stmt->execute()) {
+            return "Usuario registrado correctamente";
         }
-        return false;
-    }
+
+        return "Error al registrar el usuario";
+        }
 }
 ?>
