@@ -26,7 +26,7 @@
     </header>
 
     <main class="container" style="padding: 40px 0;">
-        <div class="login-container" style="max-width: 800px; margin: 0 auto; background: #fff; padding: 40px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+        <div class="text-container" style="max-width: 800px; margin: 0 auto; background: #fff; padding: 40px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
             <h2 style="color: var(--primary-color); text-align: center; margin-bottom: 30px;">Acerca de COMERSELEC S.A.</h2>
             
             <h3 style="color: var(--secondary-color); margin-top: 20px;">Nuestra Historia</h3>

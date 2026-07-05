@@ -26,7 +26,7 @@
     </header>
 
     <main class="container" style="padding: 40px 0;">
-        <div class="login-container" style="max-width: 600px; margin: 0 auto; background: #fff; padding: 40px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+        <div class="text-container" style="max-width: 600px; margin: 0 auto; background: #fff; padding: 40px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
             <h2 style="text-align: center; color: var(--primary-color);">Contáctanos</h2>
             <p style="text-align: center; color: #FF5A00; margin-bottom: 20px; font-weight: bold">Envía tu mensaje directamente a nuestro equipo de ventas</p> <br> 
             

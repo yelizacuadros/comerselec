@@ -26,7 +26,6 @@ body {
     margin: 0 auto;
     padding: 0 20px;
     border-radius: 8px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
 }
 
 /* Header */
@@ -233,7 +232,7 @@ footer {
 }
 
 .admin-nav li {
-    margin-bottom: 15px;
+    margin-top: 15px;
 }
 
 .admin-nav a {
@@ -261,7 +260,7 @@ footer {
     align-items: center;
     margin-bottom: 30px;
     padding-bottom: 10px;
-    border-bottom: 1px solid var(--secondary-orange);
+    border-bottom: 4px solid var(--secondary-orange);
     
 }
 
@@ -334,6 +333,16 @@ footer {
 }
 
 .login-container {
+    max-width: 400px;
+    margin: 100px auto;
+    background: var(--white);
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    border-top: 5px solid var(--secondary-orange);
+}
+
+.text-container {
     max-width: 400px;
     margin: 100px auto;
     background: var(--white);
