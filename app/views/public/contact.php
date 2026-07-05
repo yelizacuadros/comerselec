@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="css/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
 </head>
-<body>
+<body style="background-color: #D0E3F0; border-radius: 2rem;">
     <header class="main-header">
         <div class="container header-container">
             <div class="logo">
@@ -26,9 +26,9 @@
     </header>
 
     <main class="container" style="padding: 40px 0;">
-        <div class="form-container" style="max-width: 600px; margin: 0 auto; background: #fff; padding: 40px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+        <div class="login-container" style="max-width: 600px; margin: 0 auto; background: #fff; padding: 40px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
             <h2 style="text-align: center; color: var(--primary-color);">Contáctanos</h2>
-            <p style="text-align: center; margin-bottom: 20px;">Envía tu mensaje directamente a nuestro equipo de ventas.</p>
+            <p style="text-align: center; color: #FF5A00; margin-bottom: 20px; font-weight: bold">Envía tu mensaje directamente a nuestro equipo de ventas</p> <br> 
             
             <?php if(isset($success) && $success): ?>
                 <div style="background: #d4edda; color: #155724; padding: 15px; border-radius: 4px; margin-bottom: 20px; text-align: center;">
@@ -44,22 +44,24 @@
 
             <form action="index.php?action=contact" method="POST">
                 <div class="form-group">
-                    <label for="name">Nombre Completo:</label>
-                    <input type="text" id="name" name="name" required>
+                    <label for="name">Nombre:</label>
+                    <input type="text" id="name" name="name"  class="form-control" required>
                 </div>
                 <div class="form-group">
-                    <label for="email">Correo Electrónico:</label>
-                    <input type="email" id="email" name="email" required>
+                    <label for="email">Correo:</label>
+                    <input type="email" id="email" name="email"  class="form-control" required>
                 </div>
                 <div class="form-group">
                     <label for="subject">Asunto:</label>
-                    <input type="text" id="subject" name="subject" required>
+                    <input type="text" id="subject" name="subject"  class="form-control" required>
                 </div>
                 <div class="form-group">
                     <label for="message">Mensaje:</label>
-                    <textarea id="message" name="message" rows="5" required style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px;"></textarea>
+                    <textarea id="message" name="message" rows="5"  class="form-control" required 
+                    style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px;"></textarea>
                 </div>
-                <button type="submit" class="btn">Enviar Mensaje</button>
+                
+                <button type="submit" class="btn btn-primary"; style="width: 50%; margin: auto; display: block;">Enviar</button>
             </form>
         </div>
     </main>

@@ -9,7 +9,7 @@
 </head>
 <body class="admin-body" style="background-color: #D0E3F0;">
     <div class="login-container">
-        <h2 style="text-align: center; color: var(--primary-color); color: #0A192F; font-size: 25px;">Registro de Usuario</h2> 
+        <h2 style="text-align: center; color: var(--primary-color); color: #0A192F; font-size: 23px;">Registro de Usuario</h2> 
         <br>
         <?php if(isset($error) && !empty($error)): ?>
             <div style="background: #f8d7da; color: #721c24; padding: 10px; text-align: center; margin-bottom: 15px;">
