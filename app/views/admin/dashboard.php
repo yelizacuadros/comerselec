@@ -32,24 +32,31 @@
                 <h2>Panel de Control</h2>
                 <p>Bienvenido al sistema de administración. Rol actual: <strong><?php echo isset($_SESSION['user_role']) ? htmlspecialchars($_SESSION['user_role']) : 'Administrador'; ?></strong></p>
                 
-                <!-- Aqui iría un if que muestra las opciones según el rol-->
                 <br>
-                <div class="dashboard-menu">
-                    <a href="index.php?action=categories" class="dashboard-card">
-                        <h3>Gestionar Categorías</h3>
-                        <p>Añadir, editar o eliminar categorías.</p>
-                    </a><br>
-                    
-                    <a href="index.php?action=products" class="dashboard-card">
-                        <h3>Gestionar Productos</h3>
-                        <p>Añadir, editar o eliminar productos.</p>
-                    </a><br>
-
-                    <a href="index.php?action=messages" class="dashboard-card">
-                        <h3>Mensajes de Clientes</h3>
-                        <p>Ver mensajes enviados desde Contacto.</p>
-                    </a>
-                </div>
+                <section class="products-grid">
+            <?php if(count($products) > 0): ?>
+                <?php foreach($products as $prod): ?>
+                    <div class="product-card">
+                        <div class="product-img-placeholder" style="<?php if(!empty($prod['image_url'])) echo 'background-image: url('.htmlspecialchars($prod['image_url']).'); background-size: cover; background-position: center;'; ?>">
+                            <?php if(empty($prod['image_url'])): ?>
+                                <span>⚡</span>
+                            <?php endif; ?>
+                        </div>
+                        <div class="product-info">
+                            <span class="category-badge"><?php echo htmlspecialchars($prod['category_name']); ?></span>
+                            <h4><?php echo htmlspecialchars($prod['name']); ?></h4>
+                            <p class="desc"><?php echo htmlspecialchars($prod['description']); ?></p>
+                            <div class="price-stock">
+                                <span class="price">$<?php echo number_format($prod['price'], 2); ?></span>
+                                <span class="stock">Stock: <?php echo $prod['stock']; ?></span>
+                            </div>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <p>No se encontraron productos en esta categoría.</p>
+            <?php endif; ?>
+        </section>
             </div>
         </main>
     </div>

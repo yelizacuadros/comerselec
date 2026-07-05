@@ -125,6 +125,12 @@ class AdminController {
     }
 
     private function dashboard() {
+        $stmt_prod = $this->product->readAll();
+        $products = $stmt_prod->fetchAll(PDO::FETCH_ASSOC);
+
+        $stmt_cat = $this->category->readAll();
+        $categories = $stmt_cat->fetchAll(PDO::FETCH_ASSOC);
+
         require_once 'app/views/admin/dashboard.php';
     }
 
