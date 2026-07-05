@@ -16,7 +16,7 @@
                 <li><a href="index.php?action=products" style="background-color: rgba(255,255,255,0.1); color: white;">Gestión Productos</a></li>
                 <li><a href="index.php?action=messages">Mensajes</a></li>
                 <li><a href="index.php?action=messages">Facturación</a></li> <!--Corregir link-->  
-                <li><a href="index.php?action=catalog" target="_blank">Ver Catálogo Público</a></li>
+                <!--li><a href="index.php?action=catalog" target="_blank">Ver Catálogo Público</a></li-->
                 <li><a href="index.php?action=logout" style="color: #e74c3c;">Cerrar Sesión</a></li>
             </ul>
         </aside>
