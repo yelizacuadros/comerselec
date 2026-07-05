@@ -12,9 +12,10 @@
             <?php echo isset($_SESSION['username']) ? htmlspecialchars($_SESSION['username']) : 'Admin'; ?></span></h2>
             <ul class="admin-nav" style="border-top: 3px solid var(--secondary-orange);">
                 <br>
-                <li><a href="index.php?action=dashboard">Dashboard</a></li>  <!--Poner una clase para HOVER a todas--> 
+                <li><a href="index.php?action=dashboard" style="background-color: rgba(255,255,255,0.1); color: white;">Dashboard</a></li>
                 <li><a href="index.php?action=categories">Gestión Categorías</a></li>
                 <li><a href="index.php?action=products">Gestión Productos</a></li>
+                <li><a href="index.php?action=messages">Mensajes</a></li>
                 <li><a href="index.php?action=catalog" target="_blank">Ver Catálogo Público</a></li>
                 <li><a href="index.php?action=logout" style="color: #e74c3c;">Cerrar Sesión</a></li>
             </ul>
