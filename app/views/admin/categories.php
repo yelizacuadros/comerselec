@@ -15,8 +15,13 @@
                 <li><a href="index.php?url=admin/panel">Dashboard</a></li>
                 <li><a href="index.php?url=admin/categorias" style="background-color: rgba(255,255,255,0.1); color: white;">Gestión Categorías</a></li>
                 <li><a href="index.php?url=admin/productos">Gestión Productos</a></li>
+                <li><a href="index.php?url=admin/panel">Marca</a></li>
+                <li><a href="index.php?url=admin/usuarios">Usuario</a></li>
+                <li><a href="index.php?url=admin/panel">Proveedor</a></li>
+                <li><a href="index.php?url=admin/panel">Inventario</a></li>
+                <li><a href="index.php?url=admin/panel">Facturación</a></li>
+                <li><a href="index.php?url=admin/panel">Ventas</a></li>
                 <li><a href="index.php?url=admin/mensajes">Mensajes</a></li>
-                <li><a href="index.php?url=admin/panel">Facturación</a></li> 
                 <li><a href="index.php?url=catalogo" target="_blank">Ver Catálogo Público</a></li>
                 <li><a href="index.php?url=admin/salir" style="color: #e74c3c;">Cerrar Sesión</a></li>
             </ul>

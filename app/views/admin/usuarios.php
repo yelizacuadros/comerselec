@@ -2,12 +2,11 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Productos - COMERSELEC S.A.</title>
+    <title>Usuarios - COMERSELEC S.A.</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    
-    <?php $products = $products ?? []; ?>
+    <?php $usuarios = $usuarios ?? []; ?>
     <div class="admin-layout">
         <aside class="admin-sidebar">
             <h2>COMERSELEC <span style="font-size: 16px; color: var(--light-blue); font-weight: normal;">Admin</span></h2>
@@ -15,9 +14,9 @@
                 <br>
                 <li><a href="index.php?url=admin/panel">Dashboard</a></li>
                 <li><a href="index.php?url=admin/categorias">Gestión Categorías</a></li>
-                <li><a href="index.php?url=admin/productos" style="background-color: rgba(255,255,255,0.1); color: white;">Gestión Productos</a></li>
+                <li><a href="index.php?url=admin/productos">Gestión Productos</a></li>
                 <li><a href="index.php?url=admin/panel">Marca</a></li>
-                <li><a href="index.php?url=admin/usuarios">Usuario</a></li>
+                <li><a href="index.php?url=admin/panel" style="background-color: rgba(255,255,255,0.1); color: white;">Usuario</a></li>
                 <li><a href="index.php?url=admin/panel">Proveedor</a></li>
                 <li><a href="index.php?url=admin/panel">Inventario</a></li>
                 <li><a href="index.php?url=admin/panel">Facturación</a></li>
@@ -30,32 +29,32 @@
         
         <main class="admin-content">
             <div class="admin-header">
-                <h1>Gestión de Productos</h1>
-                <a href="index.php?url=admin/productos_crear" class="btn btn-primary">NUEVO PRODUCTO</a>
+                <h1>Gestión de Usuarios</h1>
+                <a href="index.php?url=admin/usuarios_crear" class="btn btn-primary">Registro</a>
             </div>
             
-            <table class="admin-table">
+            <table class="admin-table" style="font-size: 12px;">
                 <thead>
                     <tr>
                         <th>ID</th>
-                        <th>Categoría</th>
-                        <th>Nombre</th>
-                        <th>Precio</th>
-                        <th>Stock</th>
+                        <th>Usuario</th>
+                        <th>Contraseña</th>
+                        <th>Fecha_Creación</th>
+                        <th>Rol</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <?php foreach($products as $p): ?>
+                    <?php foreach($usuarios as $c): ?>
                     <tr>
-                        <td><?php echo $p['id']; ?></td>
-                        <td><?php echo htmlspecialchars($p['category_name']); ?></td>
-                        <td><?php echo htmlspecialchars($p['name']); ?></td>
-                        <td>$<?php echo number_format($p['price'], 2); ?></td>
-                        <td><?php echo $p['stock']; ?></td>
+                        <td><?php echo $c['id']; ?></td>
+                        <td><?php echo htmlspecialchars($c['username']); ?></td>
+                        <td><?php echo htmlspecialchars($c['password']); ?></td>
+                        <td><?php echo htmlspecialchars($c['created_at']); ?></td>
+                        <td><?php echo htmlspecialchars($c['role']); ?></td>
                         <td>
-                            <a href="index.php?url=admin/productos_editar&id=<?php echo $p['id']; ?>" class="btn btn-secondary">Editar</a>
-                            <a href="index.php?url=admin/productos_eliminar&id=<?php echo $p['id']; ?>" class="btn btn-danger" onclick="return confirm('¿Seguro que deseas eliminar este producto?');">Eliminar</a>
+                            <a href="index.php?url=admin/usuarios_editar&id=<?php echo $c['id']; ?>" class="btn btn-secondary">Editar</a>
+                            <a href="index.php?url=admin/usuarios_eliminar&id=<?php echo $c['id']; ?>" class="btn btn-danger" onclick="return confirm('¿Seguro que deseas eliminar este usuario?');">Eliminar</a>
                         </td>
                     </tr>
                     <?php endforeach; ?>

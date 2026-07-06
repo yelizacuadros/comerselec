@@ -1,18 +1,18 @@
 <?php
-require_once __DIR__ . "/../config/conexion.php"; 
+require_once __DIR__ . "/../config/conexion.php";
 
 class User
 {
-    //valida credenciales del usuario para iniciar sesión  
+    // Valida credenciales para iniciar sesión
     public static function login($username, $password)
     {
         $conn = Conexion::conectar();
 
         $username = $conn->real_escape_string($username);
 
-        $sql = "SELECT id, username, password, role 
-                FROM users 
-                WHERE username='$username' 
+        $sql = "SELECT id, username, password, role
+                FROM users
+                WHERE username='$username'
                 LIMIT 1";
 
         $res = $conn->query($sql);
@@ -21,14 +21,14 @@ class User
             $user = $res->fetch_assoc();
 
             if (password_verify($password, $user['password'])) {
-                return $user; // devuelve usuario completo
+                return $user;
             }
         }
 
         return false;
     }
-    //registra un nuevo usuario en la base de datos, validando si ya existe
 
+    // Registra un nuevo usuario
     public static function registrar($username, $password, $role)
     {
         $conn = Conexion::conectar();
@@ -37,7 +37,7 @@ class User
         $role = $conn->real_escape_string($role);
         $password = password_hash($password, PASSWORD_BCRYPT);
 
-        // validar si existe
+        // Validar si el usuario ya existe
         $check = "SELECT id FROM users WHERE username='$username' LIMIT 1";
         $res = $conn->query($check);
 
@@ -54,36 +54,108 @@ class User
 
         return "Error al registrar";
     }
-    //obtiene un usuario por su id 
-    public static function obtenerPorId($id)
-    {
-        $conn = Conexion::conectar();
-        $id = (int)$id;
 
-        $sql = "SELECT id, username, role FROM users WHERE id=$id LIMIT 1";
-        $res = $conn->query($sql);
-
-        return $res->fetch_assoc();
-    }
-    //lista todos los usuarios registrados en la base de datos
+    // Lista todos los usuarios
     public static function listar()
     {
         $conn = Conexion::conectar();
 
-        $sql = "SELECT id, username, role FROM users ORDER BY id DESC";
+        $sql = "SELECT id, username, password, created_at, role
+                FROM users
+                ORDER BY username ASC";
+
         $res = $conn->query($sql);
 
-        $data = [];
+        $usuarios = [];
+
         while ($row = $res->fetch_assoc()) {
-            $data[] = $row;
+            $usuarios[] = $row;
         }
 
-        return $data;
+        return $usuarios;
     }
-    //elimina un usuario existente por su id
+
+    // Obtiene un usuario por ID
+    public static function obtenerPorId($id)
+    {
+        $conn = Conexion::conectar();
+
+        $id = (int)$id;
+
+        $sql = "SELECT id, username, password, created_at, role
+                FROM users
+                WHERE id=$id
+                LIMIT 1";
+
+        $res = $conn->query($sql);
+
+        return $res->fetch_assoc();
+    }
+
+    // Crea un usuario desde el panel de administración
+    public static function crear($username, $password, $created_at, $role)
+    {
+        $conn = Conexion::conectar();
+
+        $username = $conn->real_escape_string($username);
+        $created_at = $conn->real_escape_string($created_at);
+        $role = $conn->real_escape_string($role);
+
+        // Validar si el usuario ya existe
+        $check = "SELECT id FROM users WHERE username='$username' LIMIT 1";
+        $res = $conn->query($check);
+
+        if ($res->num_rows > 0) {
+            return false;
+        }
+
+        // Encriptar contraseña
+        $password = password_hash($password, PASSWORD_BCRYPT);
+
+        $sql = "INSERT INTO users (username, password, created_at, role)
+                VALUES ('$username', '$password', '$created_at', '$role')";
+
+        return $conn->query($sql);
+    }
+
+    // Actualiza un usuario
+    public static function actualizar($id, $username, $password, $created_at, $role)
+    {
+        $conn = Conexion::conectar();
+
+        $id = (int)$id;
+        $username = $conn->real_escape_string($username);
+        $created_at = $conn->real_escape_string($created_at);
+        $role = $conn->real_escape_string($role);
+
+        if (!empty($password)) {
+
+            $password = password_hash($password, PASSWORD_BCRYPT);
+
+            $sql = "UPDATE users
+                    SET username='$username',
+                        password='$password',
+                        created_at='$created_at',
+                        role='$role'
+                    WHERE id=$id";
+
+        } else {
+
+            $sql = "UPDATE users
+                    SET username='$username',
+                        created_at='$created_at',
+                        role='$role'
+                    WHERE id=$id";
+        }
+
+        return $conn->query($sql);
+    }
+
+    // Elimina un usuario
     public static function eliminar($id)
     {
         $conn = Conexion::conectar();
+
         $id = (int)$id;
 
         $sql = "DELETE FROM users WHERE id=$id";
