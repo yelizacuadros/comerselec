@@ -1,82 +1,71 @@
 <?php
-class Category {
-    private $conn;
-    private $table_name = "categories";
+require_once __DIR__ . "/../config/conexion.php";
 
-    public $id;
-    public $name;
-    public $description;
+class Category
+{
+    //lista todas las categorias ordenadas por nombre alfabéticamente
+    public static function listar()
+    {
+        $conn = Conexion::conectar();
 
-    public function __construct($db) {
-        $this->conn = $db;
-    }
+        $sql = "SELECT id, name, description FROM categories ORDER BY name ASC";
+        $res = $conn->query($sql);
 
-    public function readAll() {
-        $query = "SELECT id, name, description FROM " . $this->table_name . " ORDER BY name ASC";
-        $stmt = $this->conn->prepare($query);
-        $stmt->execute();
-        return $stmt;
-    }
-
-    public function create() {
-        $query = "INSERT INTO " . $this->table_name . " SET name=:name, description=:description";
-        $stmt = $this->conn->prepare($query);
-
-        $this->name=htmlspecialchars(strip_tags($this->name));
-        $this->description=htmlspecialchars(strip_tags($this->description));
-
-        $stmt->bindParam(":name", $this->name);
-        $stmt->bindParam(":description", $this->description);
-
-        if($stmt->execute()){
-            return true;
+        $data = [];
+        while ($row = $res->fetch_assoc()) {
+            $data[] = $row;
         }
-        return false;
+
+        return $data;
     }
+    //obtiene una categoria por su id
+    public static function obtenerPorId($id)
+    {
+        $conn = Conexion::conectar();
+        $id = (int)$id;
 
-    public function readOne() {
-        $query = "SELECT name, description FROM " . $this->table_name . " WHERE id = ? LIMIT 0,1";
-        $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(1, $this->id);
-        $stmt->execute();
-        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        $sql = "SELECT id, name, description FROM categories WHERE id=$id LIMIT 1";
+        $res = $conn->query($sql);
 
-        if($row) {
-            $this->name = $row['name'];
-            $this->description = $row['description'];
-            return true;
-        }
-        return false;
+        return $res->fetch_assoc();
     }
+    //crea una nueva categoria y la guarda en la base de datos
+    public static function crear($name, $description)
+    {
+        $conn = Conexion::conectar();
 
-    public function update() {
-        $query = "UPDATE " . $this->table_name . " SET name = :name, description = :description WHERE id = :id";
-        $stmt = $this->conn->prepare($query);
+        $name = $conn->real_escape_string($name);
+        $description = $conn->real_escape_string($description);
 
-        $this->name=htmlspecialchars(strip_tags($this->name));
-        $this->description=htmlspecialchars(strip_tags($this->description));
-        $this->id=htmlspecialchars(strip_tags($this->id));
+        $sql = "INSERT INTO categories (name, description)
+                VALUES ('$name', '$description')";
 
-        $stmt->bindParam(':name', $this->name);
-        $stmt->bindParam(':description', $this->description);
-        $stmt->bindParam(':id', $this->id);
-
-        if($stmt->execute()){
-            return true;
-        }
-        return false;
+        return $conn->query($sql);
     }
+    //actualiza una categoria existente con nuevos datos
+    public static function actualizar($id, $name, $description)
+    {
+        $conn = Conexion::conectar();
 
-    public function delete() {
-        $query = "DELETE FROM " . $this->table_name . " WHERE id = ?";
-        $stmt = $this->conn->prepare($query);
-        $this->id=htmlspecialchars(strip_tags($this->id));
-        $stmt->bindParam(1, $this->id);
+        $id = (int)$id;
+        $name = $conn->real_escape_string($name);
+        $description = $conn->real_escape_string($description);
 
-        if($stmt->execute()){
-            return true;
-        }
-        return false;
+        $sql = "UPDATE categories 
+                SET name='$name', description='$description'
+                WHERE id=$id";
+
+        return $conn->query($sql);
+    }
+    //elimina una categoria existente por su id
+    public static function eliminar($id)
+    {
+        $conn = Conexion::conectar();
+        $id = (int)$id;
+
+        $sql = "DELETE FROM categories WHERE id=$id";
+
+        return $conn->query($sql);
     }
 }
 ?>

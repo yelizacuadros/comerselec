@@ -8,6 +8,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
+    <?php $categories = $categories ?? []; ?>
+    <?php $products = $products ?? []; ?>
+
     <header class="main-header">
         <div class="container header-container">
             <div class="logo">
@@ -16,10 +19,10 @@
             </div>
             <nav class="main-nav">
                 <ul>
-                    <li><a href="index.php?action=catalog">CATÁLOGO</a></li>
-                    <li><a href="index.php?action=about">NOSOTROS</a></li>
-                    <li><a href="index.php?action=contact">CONTACTO</a></li>
-                    <li><a href="index.php?action=login" class="btn-login">Iniciar Sesión</a></li>
+                    <li><a href="index.php?url=catalogo">CATÁLOGO</a></li>
+                    <li><a href="index.php?url=nosotros">NOSOTROS</a></li>
+                    <li><a href="index.php?url=contacto">CONTACTO</a></li>
+                    <li><a href="index.php?url=admin/login" class="btn-login">Iniciar Sesión</a></li>
                 </ul>
             </nav>
         </div>
@@ -35,9 +38,9 @@
         <aside class="sidebar">
             <h3>Categorías</h3>
             <ul class="category-list">
-                <li><a href="index.php?action=catalog">Todas las categorías</a></li>
+                <li><a href="index.php?url=catalogo">Todas las categorías</a></li>
                 <?php foreach($categories as $cat): ?>
-                    <li><a href="index.php?action=catalog&cat=<?php echo $cat['id']; ?>"><?php echo htmlspecialchars($cat['name']); ?></a></li>
+                    <li><a href="index.php?url=catalogo&cat=<?php echo $cat['id']; ?>"><?php echo htmlspecialchars($cat['name']); ?></a></li>
                 <?php endforeach; ?>
             </ul>
         </aside>

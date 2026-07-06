@@ -18,9 +18,9 @@
             </div>
         <?php endif; ?>
 
-        <form action="index.php?action=login" method="POST" id="loginForm">
+        <form action="index.php?url=admin/login" method="POST" id="loginForm">
             <div class="form-group">
-                <label >Usuario:</label>
+                <label>Usuario:</label>
                 <input type="text" name="username" id="username" class="form-control" required>
             </div>
             <br>
@@ -31,8 +31,8 @@
             <br>
             <button type="submit" class="btn btn-primary" style="width: 100%;">Ingresar</button>
             <div class="form-group" style="text-align: center; margin-top: 15px;">
-                <a href="index.php?action=register" style="margin-right: 15px;">Registrarse</a>
-                <a href="index.php?action=catalog">Volver al catálogo</a>
+                <a href="index.php?url=admin/registro" style="margin-right: 15px;">Registrarse</a>
+                <a href="index.php?url=catalogo">Volver al catálogo</a>
             </div>
         </form>
     </div>

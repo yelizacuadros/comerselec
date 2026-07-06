@@ -1,44 +1,37 @@
 <?php
-class Message {
-    private $conn;
-    private $table_name = "messages";
+require_once __DIR__ . "/../config/conexion.php";
 
-    public $id;
-    public $name;
-    public $email;
-    public $subject;
-    public $message;
-    public $created_at;
+class Message
+{
+        //lista los mensajes ordenados por fecha de creación, mostrando los más recientes primero
+    public static function listar()
+    {
+        $conn = Conexion::conectar();
 
-    public function __construct($db) {
-        $this->conn = $db;
-    }
+        $sql = "SELECT * FROM messages ORDER BY created_at DESC";
+        $res = $conn->query($sql);
 
-    public function create() {
-        $query = "INSERT INTO " . $this->table_name . " SET name=:name, email=:email, subject=:subject, message=:message";
-        $stmt = $this->conn->prepare($query);
-
-        $this->name=htmlspecialchars(strip_tags($this->name));
-        $this->email=htmlspecialchars(strip_tags($this->email));
-        $this->subject=htmlspecialchars(strip_tags($this->subject));
-        $this->message=htmlspecialchars(strip_tags($this->message));
-
-        $stmt->bindParam(":name", $this->name);
-        $stmt->bindParam(":email", $this->email);
-        $stmt->bindParam(":subject", $this->subject);
-        $stmt->bindParam(":message", $this->message);
-
-        if($stmt->execute()){
-            return true;
+        $data = [];
+        while ($row = $res->fetch_assoc()) {
+            $data[] = $row;
         }
-        return false;
-    }
 
-    public function readAll() {
-        $query = "SELECT id, name, email, subject, message, created_at FROM " . $this->table_name . " ORDER BY created_at DESC";
-        $stmt = $this->conn->prepare($query);
-        $stmt->execute();
-        return $stmt;
+        return $data;
+    }
+    //guarda un nuevo mensaje enviado desde el formulario de contacto 
+    public static function crear($name, $email, $subject, $message)
+    {
+        $conn = Conexion::conectar();
+
+        $name = $conn->real_escape_string($name);
+        $email = $conn->real_escape_string($email);
+        $subject = $conn->real_escape_string($subject);
+        $message = $conn->real_escape_string($message);
+
+        $sql = "INSERT INTO messages (name, email, subject, message)
+                VALUES ('$name', '$email', '$subject', '$message')";
+
+        return $conn->query($sql);
     }
 }
 ?>

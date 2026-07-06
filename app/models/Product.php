@@ -1,122 +1,113 @@
 <?php
-class Product {
-    private $conn;
-    private $table_name = "products";
+require_once __DIR__ . "/../config/conexion.php";
 
-    public $id;
-    public $category_id;
-    public $name;
-    public $description;
-    public $price;
-    public $stock;
-    public $image_url;
-    public $category_name;
+class Product
+{
+    //lista todos los productos con sus categorias asociadas  
+    public static function listar()
+    {
+        $conn = Conexion::conectar();
 
-    public function __construct($db) {
-        $this->conn = $db;
-    }
+        $sql = "SELECT p.id, p.name, p.description, p.price, p.stock,
+                       p.image_url, c.name AS category_name
+                FROM products p
+                LEFT JOIN categories c ON p.category_id = c.id
+                ORDER BY p.name ASC";
 
-    public function readAll() {
-        $query = "SELECT p.id, p.name, p.description, p.price, p.stock, p.image_url, p.category_id, c.name as category_name 
-                  FROM " . $this->table_name . " p 
-                  LEFT JOIN categories c ON p.category_id = c.id 
-                  ORDER BY p.name ASC";
-        $stmt = $this->conn->prepare($query);
-        $stmt->execute();
-        return $stmt;
-    }
-
-    public function readByCategory() {
-        $query = "SELECT p.id, p.name, p.description, p.price, p.stock, p.image_url, p.category_id, c.name as category_name 
-                  FROM " . $this->table_name . " p 
-                  LEFT JOIN categories c ON p.category_id = c.id 
-                  WHERE p.category_id = ? 
-                  ORDER BY p.name ASC";
-        $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(1, $this->category_id);
-        $stmt->execute();
-        return $stmt;
-    }
-
-    public function create() {
-        $query = "INSERT INTO " . $this->table_name . " SET category_id=:category_id, name=:name, description=:description, price=:price, stock=:stock, image_url=:image_url";
-        $stmt = $this->conn->prepare($query);
-
-        $this->category_id=htmlspecialchars(strip_tags($this->category_id));
-        $this->name=htmlspecialchars(strip_tags($this->name));
-        $this->description=htmlspecialchars(strip_tags($this->description));
-        $this->price=htmlspecialchars(strip_tags($this->price));
-        $this->stock=htmlspecialchars(strip_tags($this->stock));
-        $this->image_url=htmlspecialchars(strip_tags($this->image_url));
-
-        $stmt->bindParam(":category_id", $this->category_id);
-        $stmt->bindParam(":name", $this->name);
-        $stmt->bindParam(":description", $this->description);
-        $stmt->bindParam(":price", $this->price);
-        $stmt->bindParam(":stock", $this->stock);
-        $stmt->bindParam(":image_url", $this->image_url);
-
-        if($stmt->execute()){
-            return true;
+        $res = $conn->query($sql);
+    // se
+        $data = [];
+        while ($row = $res->fetch_assoc()) {
+            $data[] = $row;
         }
-        return false;
+
+        return $data;
     }
+    //lista productos filtrados por categoria, mostrando el nombre de la categoria asociada
+    public static function listarPorCategoria($category_id)
+    {
+        $conn = Conexion::conectar();
+        $category_id = (int)$category_id;
 
-    public function readOne() {
-        $query = "SELECT category_id, name, description, price, stock, image_url FROM " . $this->table_name . " WHERE id = ? LIMIT 0,1";
-        $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(1, $this->id);
-        $stmt->execute();
-        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        $sql = "SELECT p.id, p.name, p.description, p.price, p.stock,
+                       p.image_url, c.name AS category_name
+                FROM products p
+                LEFT JOIN categories c ON p.category_id = c.id
+                WHERE p.category_id = $category_id
+                ORDER BY p.name ASC";
 
-        if($row) {
-            $this->category_id = $row['category_id'];
-            $this->name = $row['name'];
-            $this->description = $row['description'];
-            $this->price = $row['price'];
-            $this->stock = $row['stock'];
-            $this->image_url = $row['image_url'];
-            return true;
+        $res = $conn->query($sql);
+
+        $data = [];
+        while ($row = $res->fetch_assoc()) {
+            $data[] = $row;
         }
-        return false;
+
+        return $data;
     }
+    //crea un nuevo producto y lo guarda en la base de datos
+    public static function crear($category_id, $name, $description, $price, $stock, $image_url)
+    {
+        $conn = Conexion::conectar();
 
-    public function update() {
-        $query = "UPDATE " . $this->table_name . " SET category_id = :category_id, name = :name, description = :description, price = :price, stock = :stock, image_url = :image_url WHERE id = :id";
-        $stmt = $this->conn->prepare($query);
+        $category_id = (int)$category_id;
+        $name = $conn->real_escape_string($name);
+        $description = $conn->real_escape_string($description);
+        $price = $conn->real_escape_string($price);
+        $stock = (int)$stock;
+        $image_url = $conn->real_escape_string($image_url);
 
-        $this->category_id=htmlspecialchars(strip_tags($this->category_id));
-        $this->name=htmlspecialchars(strip_tags($this->name));
-        $this->description=htmlspecialchars(strip_tags($this->description));
-        $this->price=htmlspecialchars(strip_tags($this->price));
-        $this->stock=htmlspecialchars(strip_tags($this->stock));
-        $this->image_url=htmlspecialchars(strip_tags($this->image_url));
-        $this->id=htmlspecialchars(strip_tags($this->id));
+        $sql = "INSERT INTO products 
+                (category_id, name, description, price, stock, image_url)
+                VALUES 
+                ($category_id, '$name', '$description', '$price', $stock, '$image_url')";
 
-        $stmt->bindParam(':category_id', $this->category_id);
-        $stmt->bindParam(':name', $this->name);
-        $stmt->bindParam(':description', $this->description);
-        $stmt->bindParam(':price', $this->price);
-        $stmt->bindParam(':stock', $this->stock);
-        $stmt->bindParam(':image_url', $this->image_url);
-        $stmt->bindParam(':id', $this->id);
-
-        if($stmt->execute()){
-            return true;
-        }
-        return false;
+        return $conn->query($sql);
     }
+    //obtiene un producto por su id, mostrando todos sus detalles
+    public static function obtenerPorId($id)
+    {
+        $conn = Conexion::conectar();
+        $id = (int)$id;
 
-    public function delete() {
-        $query = "DELETE FROM " . $this->table_name . " WHERE id = ?";
-        $stmt = $this->conn->prepare($query);
-        $this->id=htmlspecialchars(strip_tags($this->id));
-        $stmt->bindParam(1, $this->id);
+        $sql = "SELECT * FROM products WHERE id=$id LIMIT 1";
+        $res = $conn->query($sql);
 
-        if($stmt->execute()){
-            return true;
-        }
-        return false;
+        return $res->fetch_assoc();
+    }
+    //actualiza un producto existente con nuevos datos
+    public static function actualizar($id, $category_id, $name, $description, $price, $stock, $image_url)
+    {
+        $conn = Conexion::conectar();
+
+        $id = (int)$id;
+        $category_id = (int)$category_id;
+        $name = $conn->real_escape_string($name);
+        $description = $conn->real_escape_string($description);
+        $price = $conn->real_escape_string($price);
+        $stock = (int)$stock;
+        $image_url = $conn->real_escape_string($image_url);
+
+        $sql = "UPDATE products SET 
+                    category_id=$category_id,
+                    name='$name',
+                    description='$description',
+                    price='$price',
+                    stock=$stock,
+                    image_url='$image_url'
+                WHERE id=$id";
+
+        return $conn->query($sql);
+    }
+    //elimina un producto existente por su id
+    public static function eliminar($id)
+    {
+        $conn = Conexion::conectar();
+        $id = (int)$id;
+
+        $sql = "DELETE FROM products WHERE id=$id";
+
+        return $conn->query($sql);
     }
 }
 ?>

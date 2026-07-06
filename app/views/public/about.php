@@ -16,10 +16,10 @@
             </div>
             <nav class="main-nav">
                 <ul>
-                    <li><a href="index.php?action=catalog">CATÁLOGO</a></li>
-                    <li><a href="index.php?action=about" class="active">NOSOTROS</a></li>
-                    <li><a href="index.php?action=contact">CONTACTO</a></li>
-                    <li><a href="index.php?action=login" class="btn-login">Iniciar Sesión</a></li>
+                    <li><a href="index.php?url=catalogo">CATÁLOGO</a></li>
+                    <li><a href="index.php?url=nosotros" class="active">NOSOTROS</a></li>
+                    <li><a href="index.php?url=contacto">CONTACTO</a></li>
+                    <li><a href="index.php?url=admin/login" class="btn-login">Iniciar Sesión</a></li>
                 </ul>
             </nav>
         </div>

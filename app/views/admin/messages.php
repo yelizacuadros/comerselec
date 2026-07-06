@@ -6,18 +6,20 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+    <?php $messages = $messages ?? []; ?>
     <div class="admin-layout">
         <aside class="admin-sidebar">
             <h2>COMERSELEC <span style="font-size: 16px; color: var(--light-blue); font-weight: normal;">Admin</span></h2>
             <ul class="admin-nav" style="border-top: 3px solid var(--secondary-orange);">
                 <br>
-                <li><a href="index.php?action=dashboard">Dashboard</a></li>
-                <li><a href="index.php?action=categories">Gestión Categorías</a></li>
-                <li><a href="index.php?action=products">Gestión Productos</a></li>
-                <li><a href="index.php?action=messages" style="background-color: rgba(255,255,255,0.1); color: white;">Mensajes</a></li>
-                <li><a href="index.php?action=messages">Facturación</a></li> <!--Corregir link--> 
-                <li><a href="index.php?action=catalog" target="_blank">Ver Catálogo Público</a></li>
-                <li><a href="index.php?action=logout" style="color: #e74c3c;">Cerrar Sesión</a></li>
+                <li><a href="index.php?url=admin/panel">Dashboard</a></li>
+                <li><a href="index.php?url=admin/categorias">Gestión Categorías</a></li>
+                <li><a href="index.php?url=admin/productos">Gestión Productos</a></li>
+                <li><a href="index.php?url=admin/mensajes" style="background-color: rgba(255,255,255,0.1); color: white;">Mensajes</a></li>
+                <!-- Redirección provisional al Dashboard principal para Facturación -->
+                <li><a href="index.php?url=admin/panel">Facturación</a></li> 
+                <li><a href="index.php?url=catalogo" target="_blank">Ver Catálogo Público</a></li>
+                <li><a href="index.php?url=admin/salir" style="color: #e74c3c;">Cerrar Sesión</a></li>
             </ul>
         </aside>
 

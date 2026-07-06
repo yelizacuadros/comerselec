@@ -1,70 +1,94 @@
 <?php
-class User {
-    private $conn;
-    private $table_name = "users";
+require_once __DIR__ . "/../config/conexion.php"; 
 
-    public $id;
-    public $username;
-    public $password;
-    public $role;
+class User
+{
+    //valida credenciales del usuario para iniciar sesión  
+    public static function login($username, $password)
+    {
+        $conn = Conexion::conectar();
 
-    public function __construct($db) {
-        $this->conn = $db;
-    }
+        $username = $conn->real_escape_string($username);
 
-    public function login() {
-        $query = "SELECT id, username, password, role FROM " . $this->table_name . " WHERE username = ? LIMIT 0,1";
-        $stmt = $this->conn->prepare($query);
-        $this->username=htmlspecialchars(strip_tags($this->username));
-        $stmt->bindParam(1, $this->username);
-        $stmt->execute();
+        $sql = "SELECT id, username, password, role 
+                FROM users 
+                WHERE username='$username' 
+                LIMIT 1";
 
-        if($stmt->rowCount() > 0) {
-            $row = $stmt->fetch(PDO::FETCH_ASSOC);
-            if(password_verify($this->password, $row['password'])) {
-                $this->id = $row['id'];
-                $this->role = $row['role'];
-                return true;
+        $res = $conn->query($sql);
+
+        if ($res->num_rows > 0) {
+            $user = $res->fetch_assoc();
+
+            if (password_verify($password, $user['password'])) {
+                return $user; // devuelve usuario completo
             }
         }
+
         return false;
     }
+    //registra un nuevo usuario en la base de datos, validando si ya existe
 
-    public function register() { //Evalua si el usuario ya existe
-        // Validar campos vacios
-        if (empty($this->username) || empty($this->password) || empty($this->role)) {
-            return "Complete todos los campos";
+    public static function registrar($username, $password, $role)
+    {
+        $conn = Conexion::conectar();
+
+        $username = $conn->real_escape_string($username);
+        $role = $conn->real_escape_string($role);
+        $password = password_hash($password, PASSWORD_BCRYPT);
+
+        // validar si existe
+        $check = "SELECT id FROM users WHERE username='$username' LIMIT 1";
+        $res = $conn->query($check);
+
+        if ($res->num_rows > 0) {
+            return "Usuario ya existe";
         }
 
-        // Verificar si el usuario ya existe
-        $check = "SELECT id FROM " . $this->table_name . " WHERE username = :username LIMIT 1";
-        $stmt = $this->conn->prepare($check);
-        $stmt->bindParam(":username", $this->username);
-        $stmt->execute();
+        $sql = "INSERT INTO users (username, password, role)
+                VALUES ('$username', '$password', '$role')";
 
-        if ($stmt->rowCount() > 0) {
-            return "Ese usuario ya existe";
+        if ($conn->query($sql)) {
+            return "ok";
         }
 
-        // Registrar usuario
-        $query = "INSERT INTO " . $this->table_name . "
-                SET username=:username, password=:password, role=:role";
+        return "Error al registrar";
+    }
+    //obtiene un usuario por su id 
+    public static function obtenerPorId($id)
+    {
+        $conn = Conexion::conectar();
+        $id = (int)$id;
 
-        $stmt = $this->conn->prepare($query);
+        $sql = "SELECT id, username, role FROM users WHERE id=$id LIMIT 1";
+        $res = $conn->query($sql);
 
-        $this->username = htmlspecialchars(strip_tags($this->username));
-        $this->password = password_hash($this->password, PASSWORD_BCRYPT);
-        $this->role = htmlspecialchars(strip_tags($this->role));
+        return $res->fetch_assoc();
+    }
+    //lista todos los usuarios registrados en la base de datos
+    public static function listar()
+    {
+        $conn = Conexion::conectar();
 
-        $stmt->bindParam(":username", $this->username);
-        $stmt->bindParam(":password", $this->password);
-        $stmt->bindParam(":role", $this->role);
+        $sql = "SELECT id, username, role FROM users ORDER BY id DESC";
+        $res = $conn->query($sql);
 
-        if ($stmt->execute()) {
-            return "Usuario registrado correctamente";
+        $data = [];
+        while ($row = $res->fetch_assoc()) {
+            $data[] = $row;
         }
 
-        return "Error al registrar el usuario";
-        }
+        return $data;
+    }
+    //elimina un usuario existente por su id
+    public static function eliminar($id)
+    {
+        $conn = Conexion::conectar();
+        $id = (int)$id;
+
+        $sql = "DELETE FROM users WHERE id=$id";
+
+        return $conn->query($sql);
+    }
 }
 ?>

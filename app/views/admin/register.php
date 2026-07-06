@@ -23,7 +23,7 @@
             </div>
         <?php endif; ?>
 
-        <form action="index.php?action=register" method="POST">
+        <form action="index.php?url=admin/registro" method="POST">
             <div class="form-group">
                 <label for="username">Usuario:</label>
                 <input type="text" id="username" name="username" class="form-control" required>
@@ -41,11 +41,11 @@
                     <option value="Contabilidad">Contabilidad</option>
                 </select>
             </div>
-            <button type="submit" class="btn btn-primary"; style="width: 100%;">Registrar</button>
+            <button type="submit" class="btn btn-primary" style="width: 100%;">Registrar</button>
             
             <div class="form-group" style="text-align: center; margin-top: 15px;">
-                <a href="index.php?action=login" style="margin-right: 15px;">Ya tengo cuenta (Iniciar Sesión)</a><br>
-                <a href="index.php?action=catalog">Volver al catálogo</a>
+                <a href="index.php?url=admin/login" style="margin-right: 15px;">Ya tengo cuenta (Iniciar Sesión)</a><br>
+                <a href="index.php?url=catalogo">Volver al catálogo</a>
             </div>
         </form>
     </div>

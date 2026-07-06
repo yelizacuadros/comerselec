@@ -1,62 +1,49 @@
 <?php
-require_once 'app/config/database.php';
-require_once 'app/models/Category.php';
-require_once 'app/models/Product.php';
-require_once 'app/models/Message.php';
+require_once __DIR__ . "/../models/Category.php";
+require_once __DIR__ . "/../models/Product.php";
+require_once __DIR__ . "/../models/Message.php";
 
-class PublicController {
-    private $db;
-    private $category;
-    private $product;
-    private $message;
-
-    public function __construct() {
-        $database = new Database();
-        $this->db = $database->getConnection();
-        $this->category = new Category($this->db);
-        $this->product = new Product($this->db);
-        $this->message = new Message($this->db);
-    }
-
-    public function index() {
-        $stmt_cat = $this->category->readAll();
-        $categories = $stmt_cat->fetchAll(PDO::FETCH_ASSOC);
-
-        $category_id = isset($_GET['cat']) ? $_GET['cat'] : null;
+class PublicController
+{
+    //muestra el catálogo de productos, filtrando por categoría si se proporciona un ID de categoría
+    public function catalogo()
+    {
+        $categories = Category::listar();
         
-        if($category_id) {
-            $this->product->category_id = $category_id;
-            $stmt_prod = $this->product->readByCategory();
+        $category_id = $_GET['cat'] ?? null;
+        if ($category_id) {
+            $products = Product::listarPorCategoria($category_id);
         } else {
-            $stmt_prod = $this->product->readAll();
+            $products = Product::listar();
         }
-        $products = $stmt_prod->fetchAll(PDO::FETCH_ASSOC);
 
-        require_once 'app/views/public/home.php';
+        require_once __DIR__ . "/../views/public/home.php";
     }
-
-    public function about() {
-        require_once 'app/views/public/about.php';
+    //muestra la página de información "Nosotros"
+    public function nosotros()
+    {
+        require_once __DIR__ . "/../views/public/about.php";
     }
-
-    public function contact() {
+    //muestra el formulario de contacto, guardando el mensaje en la base de datos y mostrando un mensaje de éxito o error 
+    public function contacto()
+    {
         $success = "";
         $error = "";
 
-        if($_POST) {
-            $this->message->name = $_POST['name'];
-            $this->message->email = $_POST['email'];
-            $this->message->subject = $_POST['subject'];
-            $this->message->message = $_POST['message'];
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $name = $_POST['name'] ?? "";
+            $email = $_POST['email'] ?? "";
+            $subject = $_POST['subject'] ?? "";
+            $message = $_POST['message'] ?? "";
 
-            if($this->message->create()) {
+            if (Message::crear($name, $email, $subject, $message)) {
                 $success = "¡Mensaje enviado con éxito! Nos pondremos en contacto contigo pronto.";
             } else {
                 $error = "Hubo un error al enviar el mensaje. Inténtalo de nuevo.";
             }
         }
 
-        require_once 'app/views/public/contact.php';
+        require_once __DIR__ . "/../views/public/contact.php";
     }
 }
 ?>

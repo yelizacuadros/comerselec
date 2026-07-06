@@ -16,10 +16,10 @@
             </div>
             <nav class="main-nav">
                 <ul>
-                    <li><a href="index.php?action=catalog">CATÁLOGO</a></li>
-                    <li><a href="index.php?action=about">NOSOTROS</a></li>
-                    <li><a href="index.php?action=contact" class="active">CONTACTO</a></li>
-                    <li><a href="index.php?action=login" class="btn-login">Iniciar Sesión</a></li>
+                    <li><a href="index.php?url=catalogo">CATÁLOGO</a></li>
+                    <li><a href="index.php?url=nosotros">NOSOTROS</a></li>
+                    <li><a href="index.php?url=contacto" class="active">CONTACTO</a></li>
+                    <li><a href="index.php?url=admin/login" class="btn-login">Iniciar Sesión</a></li>
                 </ul>
             </nav>
         </div>
@@ -42,7 +42,7 @@
                 </div>
             <?php endif; ?>
 
-            <form action="index.php?action=contact" method="POST">
+            <form action="index.php?url=contacto" method="POST">
                 <div class="form-group">
                     <label for="name">Nombre:</label>
                     <input type="text" id="name" name="name"  class="form-control" required>
@@ -61,7 +61,7 @@
                     style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px;"></textarea>
                 </div>
                 
-                <button type="submit" class="btn btn-primary"; style="width: 50%; margin: auto; display: block;">Enviar</button>
+                <button type="submit" class="btn btn-primary" style="width: 50%; margin: auto; display: block;">Enviar</button>
             </form>
         </div>
     </main>
