@@ -82,6 +82,8 @@ class ProductController
         }
         
         $categories = Category::listar();
+        $marcas = Marca::listar();
+        $proveedores = Proveedor::listar();
         require_once __DIR__ . "/../views/admin/products_form.php";
     }
 
