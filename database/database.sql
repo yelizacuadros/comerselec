@@ -160,6 +160,9 @@ COMMIT;
 ALTER TABLE inventario
 ADD ubicacion VARCHAR(100) NOT NULL DEFAULT 'Bodega Principal';
 
+ALTER TABLE inventario
+ADD UNIQUE (id_producto);
+
 -- Tabla de mensajes de contacto
 CREATE TABLE `messages` (
   `id` int(11) NOT NULL AUTO_INCREMENT,

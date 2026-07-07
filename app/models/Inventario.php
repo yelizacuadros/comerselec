@@ -3,48 +3,24 @@ require_once __DIR__ . "/../config/conexion.php";
 
 class Inventario
 {
-    //lista todos los productos con sus categorias asociadas  
-    public static function listar()
-    {
+    //lista todos los registros del inventario
+    public static function listar(){
         $conn = Conexion::conectar();
 
-        $sql = "SELECT i.id_inventario, i.stock,
-                    p.id, p.name, p.description, p.price, p.image_url,
-                    c.name AS category_name,
+        $sql = "SELECT i.id_inventario,
+                    i.id_producto,
+                    i.stock,
+                    i.ubicacion,
+                    p.name,
+                    p.price,
+                    c.name AS categoria,
                     m.nombre AS marca,
                     pr.nombre AS proveedor
                 FROM inventario i
                 INNER JOIN products p ON i.id_producto = p.id
-                LEFT JOIN categories c ON p.category_id = c.id
-                LEFT JOIN marcas m ON p.id_marca = m.id_marca
-                LEFT JOIN proveedores pr ON p.id_proveedor = pr.id_proveedor
-                ORDER BY p.name ASC";
-
-        $res = $conn->query($sql);
-    // se
-        $data = [];
-        while ($row = $res->fetch_assoc()) {
-            $data[] = $row;
-        }
-
-        return $data;
-    }
-    //lista productos filtrados por categoria, mostrando el nombre de la categoria asociada
-    public static function listarPorCategoria($category_id)
-    {
-        $conn = Conexion::conectar();
-        $category_id = (int)$category_id;
-
-        $sql = "SELECT p.id, p.name, p.description, p.price, p.stock,
-                    p.image_url,
-                    c.name AS category_name,
-                    m.nombre AS marca,
-                    pr.nombre AS proveedor
-                FROM products p
-                LEFT JOIN categories c ON p.category_id = c.id
-                LEFT JOIN marcas m ON p.id_marca = m.id_marca
-                LEFT JOIN proveedores pr ON p.id_proveedor = pr.id_proveedor
-                WHERE p.category_id = $category_id
+                INNER JOIN categories c ON p.category_id = c.id
+                INNER JOIN marcas m ON p.id_marca = m.id_marca
+                INNER JOIN proveedores pr ON p.id_proveedor = pr.id_proveedor
                 ORDER BY p.name ASC";
 
         $res = $conn->query($sql);
@@ -56,80 +32,79 @@ class Inventario
 
         return $data;
     }
-    //crea un nuevo producto y lo guarda en la base de datos
-    public static function crear($category_id, $id_marca, $id_proveedor, $name, $description, $price, $stock, $image_url)
-    {
-        $conn = Conexion::conectar();
 
-        $category_id = (int)$category_id;
-        $id_marca = (int)$id_marca;
-        $id_proveedor = (int)$id_proveedor;
-
-        $name = $conn->real_escape_string($name);
-        $description = $conn->real_escape_string($description);
-        $price = $conn->real_escape_string($price);
-        $stock = (int)$stock;
-        $image_url = $conn->real_escape_string($image_url);
-
-        $sql = "INSERT INTO products
-        (category_id, id_marca, id_proveedor, name, description, price, stock, image_url)
-        VALUES
-        ($category_id, $id_marca, $id_proveedor, '$name', '$description', '$price', $stock, '$image_url')";
-
-        return $conn->query($sql);
-    }
-    //obtiene un producto por su id, mostrando todos sus detalles
-    public static function obtenerPorId($id)
-    {
+    //obtiene un registro del inventario por su id
+    public static function obtenerPorId($id){
         $conn = Conexion::conectar();
         $id = (int)$id;
 
-        $sql = "SELECT i.id_inventario, i.stock,
-                    p.*
+        $sql = "SELECT i.*, p.name
                 FROM inventario i
-                INNER JOIN products p ON i.id_producto = p.id
+                INNER JOIN products p
+                    ON i.id_producto = p.id
                 WHERE i.id_inventario=$id
                 LIMIT 1";
+
         $res = $conn->query($sql);
 
         return $res->fetch_assoc();
     }
-    //actualiza un producto existente con nuevos datos
-    public static function actualizar($id, $category_id, $id_marca, $id_proveedor, $name, $description, $price, $stock, $image_url)
-    {
+
+    
+    //crea un nuevo registro de inventario
+    public static function crear($id_producto, $stock, $ubicacion){
         $conn = Conexion::conectar();
 
-        $id = (int)$id;
-        $category_id = (int)$category_id;
-        $id_marca = (int)$id_marca;
-        $id_proveedor = (int)$id_proveedor;
-
-        $name = $conn->real_escape_string($name);
-        $description = $conn->real_escape_string($description);
-        $price = $conn->real_escape_string($price);
+        $id_producto = (int)$id_producto;
         $stock = (int)$stock;
-        $image_url = $conn->real_escape_string($image_url);
+        $ubicacion = $conn->real_escape_string($ubicacion);
 
-        $sql = "UPDATE products SET
-                    category_id=$category_id,
-                    id_marca=$id_marca,
-                    id_proveedor=$id_proveedor,
-                    name='$name',
-                    description='$description',
-                    price='$price',
-                    stock=$stock,
-                    image_url='$image_url'
-                WHERE id=$id";
+        // Verificar que el producto no exista en inventario
+        $sqlVerificar = "SELECT id_inventario
+                        FROM inventario
+                        WHERE id_producto=$id_producto
+                        LIMIT 1";
+
+        $resultado = $conn->query($sqlVerificar);
+
+        if ($resultado->num_rows > 0) {
+            return false; // Ya existe
+        }
+
+        $sql = "INSERT INTO inventario (id_producto, stock, ubicacion)
+                VALUES ($id_producto, $stock, '$ubicacion')";
 
         return $conn->query($sql);
     }
-    //elimina un producto existente por su id
+
+    //actualiza un registro del inventario
+    public static function actualizar($id_inventario, $id_producto, $stock, $ubicacion)
+    {
+        $conn = Conexion::conectar();
+
+        $id_inventario = (int)$id_inventario;
+        $id_producto = (int)$id_producto;
+        $stock = (int)$stock;
+        $ubicacion = $conn->real_escape_string($ubicacion);
+
+        $sql = "UPDATE inventario
+                SET
+                    id_producto=$id_producto,
+                    stock=$stock,
+                    ubicacion='$ubicacion'
+                WHERE id_inventario=$id_inventario";
+
+        return $conn->query($sql);
+    }
+
+    //elimina un registro del inventario
     public static function eliminar($id)
     {
         $conn = Conexion::conectar();
         $id = (int)$id;
 
-        $sql = "DELETE FROM products WHERE id=$id";
+        $sql = "DELETE FROM inventario
+                WHERE id_inventario=$id";
 
         return $conn->query($sql);
     }

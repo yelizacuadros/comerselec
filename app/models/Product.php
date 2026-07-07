@@ -59,6 +59,8 @@ class Product
     }
 
 
+
+
     //crea un nuevo producto y lo guarda en la base de datos
     public static function crear($category_id, $id_marca, $id_proveedor, $name, $description, $price, $image_url)
     {
@@ -71,7 +73,6 @@ class Product
         $name = $conn->real_escape_string($name);
         $description = $conn->real_escape_string($description);
         $price = $conn->real_escape_string($price);
-        $stock = (int)$stock;
         $image_url = $conn->real_escape_string($image_url);
 
         $sql = "INSERT INTO products
@@ -134,6 +135,31 @@ class Product
         $sql = "DELETE FROM products WHERE id=$id";
 
         return $conn->query($sql);
+    }
+
+    
+    //lista los productos que aún no están registrados en inventario
+    public static function listarDisponiblesInventario()
+    {
+        $conn = Conexion::conectar();
+
+        $sql = "SELECT *
+                FROM products
+                WHERE id NOT IN (
+                    SELECT id_producto
+                    FROM inventario
+                )
+                ORDER BY name ASC";
+
+        $res = $conn->query($sql);
+
+        $data = [];
+
+        while ($row = $res->fetch_assoc()) {
+            $data[] = $row;
+        }
+
+        return $data;
     }
 }
 ?>
