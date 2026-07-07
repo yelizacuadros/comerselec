@@ -15,10 +15,10 @@
                 <li><a href="index.php?url=admin/panel">Dashboard</a></li>
                 <li><a href="index.php?url=admin/categorias">Gestión Categorías</a></li>
                 <li><a href="index.php?url=admin/productos" style="background-color: rgba(255,255,255,0.1); color: white;">Gestión Productos</a></li>
-                <li><a href="index.php?url=admin/panel">Marca</a></li>
-                <li><a href="index.php?url=admin/usuarios">Usuario</a></li>
-                <li><a href="index.php?url=admin/panel">Proveedor</a></li>
-                <li><a href="index.php?url=admin/panel">Inventario</a></li>
+                <li><a href="index.php?url=admin/marcas">Gestión Marcas</a></li>
+                <li><a href="index.php?url=admin/proveedores">Gestión Proveedores</a></li>
+                <li><a href="index.php?url=admin/usuarios">Usuario</a></li> 
+                <li><a href="index.php?url=admin/panel">Inventario</a></li> 
                 <li><a href="index.php?url=admin/panel">Facturación</a></li>
                 <li><a href="index.php?url=admin/panel">Ventas</a></li>
                 <li><a href="index.php?url=admin/mensajes">Mensajes</a></li>

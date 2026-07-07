@@ -26,7 +26,7 @@ class CategoryController
         $categories = Category::listar();
         require_once __DIR__ . "/../views/admin/categories.php";
     }
-    //crea una nueva categoria y la guarda en la base de datos 
+    //crea una nueva categoria y la almacena en la base de datos 
     public function crear()
     {
         $this->verificarLogin();

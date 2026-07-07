@@ -4,6 +4,8 @@ require_once __DIR__ . "/../app/controllers/UserController.php";
 require_once __DIR__ . "/../app/controllers/ProductController.php";
 require_once __DIR__ . "/../app/controllers/CategoryController.php";
 require_once __DIR__ . "/../app/controllers/MessageController.php";
+require_once __DIR__ . "/../app/controllers/MarcaController.php";
+require_once __DIR__ . "/../app/controllers/ProveedorController.php";
 
 $url = $_GET['url'] ?? 'catalogo';
 
@@ -72,7 +74,42 @@ switch ($url) {
         $categoryCtrl = new CategoryController();
         $categoryCtrl->eliminar();
         break;
-
+    // Marcas
+    case 'admin/marcas':
+        $marcaCtrl = new MarcaController();
+        $marcaCtrl->listar();
+        break;      
+    case 'admin/marcas_crear':
+        $marcaCtrl = new MarcaController();
+        $marcaCtrl->crear();
+        break;
+    case 'admin/marcas_editar':
+        $marcaCtrl = new MarcaController(); 
+        $marcaCtrl->editar();
+        break;
+    case 'admin/marcas_eliminar':
+        $marcaCtrl = new MarcaController();
+        $marcaCtrl->eliminar();
+        break;
+       
+    // Proveedores
+    case 'admin/proveedores':
+        $proveedorCtrl = new ProveedorController();
+        $proveedorCtrl->listar();
+        break;
+    case 'admin/proveedores_crear':
+        $proveedorCtrl = new ProveedorController();
+        $proveedorCtrl->crear();
+        break;
+    case 'admin/proveedores_editar':
+        $proveedorCtrl = new ProveedorController();
+        $proveedorCtrl->editar();
+        break;
+    case 'admin/proveedores_eliminar':
+        $proveedorCtrl = new ProveedorController();
+        $proveedorCtrl->eliminar();
+        break;
+                         
     // Productos
     case 'admin/productos':
         $productCtrl = new ProductController();
