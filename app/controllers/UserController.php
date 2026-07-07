@@ -37,7 +37,6 @@ class UserController
             if ($user) {
 
                 $_SESSION['user_id'] = $user['id'];
-                $_SESSION['user_role'] = $user['role'];
                 $_SESSION['username'] = $user['username'];
 
                 header("Location: index.php?url=admin/panel");
@@ -65,9 +64,8 @@ class UserController
 
             $username = $_POST['username'] ?? "";
             $password = $_POST['password'] ?? "";
-            $role = $_POST['role'] ?? "";
 
-            $resultado = User::registrar($username, $password, $role);
+            $resultado = User::registrar($username, $password);
 
             if ($resultado == "ok") {
 
@@ -113,9 +111,8 @@ class UserController
             $username = $_POST['username'] ?? "";
             $password = $_POST['password'] ?? "";
             $created_at = $_POST['created_at'] ?? "";
-            $role = $_POST['role'] ?? "";
 
-            if (User::crear($username, $password, $created_at, $role)) {
+            if (User::crear($username, $password, $created_at)) {
 
                 header("Location: index.php?url=admin/usuarios");
                 exit;
@@ -143,9 +140,8 @@ class UserController
             $username = $_POST['username'] ?? "";
             $password = $_POST['password'] ?? "";
             $created_at = $_POST['created_at'] ?? "";
-            $role = $_POST['role'] ?? "";
 
-            if (User::actualizar($id, $username, $password, $created_at, $role)) {
+            if (User::actualizar($id, $username, $password, $created_at)) {
 
                 header("Location: index.php?url=admin/usuarios");
                 exit;

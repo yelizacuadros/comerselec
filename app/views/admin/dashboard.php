@@ -36,8 +36,8 @@
             
             <div class="dashboard-container">
                 <h2>Panel de Control</h2>
-                <p>Bienvenido al sistema de administración. Rol actual: <strong><?php echo isset($_SESSION['user_role'])
-                 ? htmlspecialchars($_SESSION['user_role']) : 'Administrador'; ?></strong></p>
+                <p>Bienvenido al sistema de administración.</p><br>
+                <p><strong>Acceso: Administrador</strong></p>
             </div>
         </main>
     </div>

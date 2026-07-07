@@ -37,7 +37,7 @@
 
                 <br>
 
-                <div class="text-container" style="background:white; border-radius:8px; max-width:350px; min-height:400px; margin:0;">
+                <div class="text-container" style="background:white; border-radius:8px; max-width:340px; min-height:390px; margin:0;">
 
                     <?php if(isset($error) && !empty($error)): ?>
                         <div style="background:#f8d7da;color:#721c24;padding:10px;margin-bottom:15px;">
@@ -62,17 +62,7 @@
                             <label>Contraseña:</label>
                             <input type="password" name="password" class="form-control" required>
                         </div>
-                        <br>
-                        <div class="form-group">
-                            <label>Rol:</label>
-                            <select name="role" class="form-control">
-                                <option value="Administrador">Administrador</option>
-                                <option value="Compras">Compras</option>
-                                <option value="Ventas">Ventas</option>
-                                <option value="Contabilidad">Contabilidad</option>
-                            </select>
-                        </div>
-                        <br>
+                        <br><br>
                         <button type="submit" class="btn btn-primary" style="margin:auto; display:block;">
                             Registrar Usuario
                         </button>

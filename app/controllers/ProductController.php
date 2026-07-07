@@ -68,12 +68,8 @@ class ProductController
             $name = $_POST['name'] ?? "";
             $description = $_POST['description'] ?? "";
             $image_url = $_POST['image_url'] ?? "";
-            // Si el usuario tiene el rol "Ventas", no permitir cambiar el precio
-            if (isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'Ventas') {
-                $price = $product['price'];
-            } else {
-                $price = $_POST['price'] ?? "";
-            }
+            
+            $price = $product['price'];
 
             if (Product::actualizar($id, $category_id, $id_marca, $id_proveedor, $name, $description, $price, $image_url)) {
                 header("Location: index.php?url=admin/productos");

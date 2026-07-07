@@ -283,26 +283,6 @@ footer {
     color: var(--primary-blue);
 }
 
-
-/* Tabla Admin de Usuarios
-.admin-tableUsers {
-    width: 100%;
-    border-collapse: collapse;
-    background: var(--white);
-    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-}
-
-.admin-tableUsers th, .admin-tableUsers td {
-    padding: 10px 12px;
-    text-align: left;
-    border-bottom: 1px solid var(--border-color);
-}
-
-.admin-tableUsers th {
-    background-color: var(--light-blue);
-    color: var(--primary-blue);
-}*/
-
 /* Botones */
 .btn {
     display: inline-block;

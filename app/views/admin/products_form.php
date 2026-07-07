@@ -86,8 +86,9 @@
 
                     <div class="form-group" style="display: flex; gap: 20px;">
                         <div style="flex: 1;">
-                            <label>Precio ($):<?php echo (isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'Ventas') ? '<small style="color:red;">(Solo lectura)</small>' : ''; ?></label>
-                            <input type="number" step="0.01" min="0" name="price" id="prod_price" class="form-control" value="<?php echo isset($product['price']) ? $product['price'] : ''; ?>" <?php echo (isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'Ventas') ? 'readonly' : 'required'; ?>>
+                            <label>Precio ($):</label>
+                            <input type="number" step="0.01" min="0" name="price" id="prod_price" class="form-control" 
+                            value="<?php echo $product['price'] ?? ''; ?>" required>
                         </div>
                     </div>
 

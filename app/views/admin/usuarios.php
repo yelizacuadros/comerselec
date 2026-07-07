@@ -40,8 +40,7 @@
                         <th>ID</th>
                         <th>Usuario</th>
                         <th>Contraseña</th>
-                        <th>Fecha_Creación</th>
-                        <th>Rol</th>
+                        <th>Fecha De Creación</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
@@ -52,7 +51,6 @@
                         <td><?php echo htmlspecialchars($c['username']); ?></td>
                         <td><?php echo htmlspecialchars($c['password']); ?></td>
                         <td><?php echo htmlspecialchars($c['created_at']); ?></td>
-                        <td><?php echo htmlspecialchars($c['role']); ?></td>
                         <td>
                             <a href="index.php?url=admin/usuarios_editar&id=<?php echo $c['id']; ?>" class="btn btn-secondary">Editar</a>
                             <a href="index.php?url=admin/usuarios_eliminar&id=<?php echo $c['id']; ?>" class="btn btn-danger" onclick="return confirm('¿Seguro que deseas eliminar este usuario?');">Eliminar</a>

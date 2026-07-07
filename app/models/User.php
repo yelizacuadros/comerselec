@@ -4,13 +4,12 @@ require_once __DIR__ . "/../config/conexion.php";
 class User
 {
     // Valida credenciales para iniciar sesión
-    public static function login($username, $password)
-    {
+    public static function login($username, $password){
         $conn = Conexion::conectar();
 
         $username = $conn->real_escape_string($username);
 
-        $sql = "SELECT id, username, password, role
+        $sql = "SELECT id, username, password
                 FROM users
                 WHERE username='$username'
                 LIMIT 1";
@@ -29,12 +28,10 @@ class User
     }
 
     // Registra un nuevo usuario
-    public static function registrar($username, $password, $role)
-    {
+    public static function registrar($username, $password){
         $conn = Conexion::conectar();
 
         $username = $conn->real_escape_string($username);
-        $role = $conn->real_escape_string($role);
         $password = password_hash($password, PASSWORD_BCRYPT);
 
         // Validar si el usuario ya existe
@@ -45,8 +42,8 @@ class User
             return "Usuario ya existe";
         }
 
-        $sql = "INSERT INTO users (username, password, role)
-                VALUES ('$username', '$password', '$role')";
+        $sql = "INSERT INTO users (username, password)
+                VALUES ('$username', '$password')";
 
         if ($conn->query($sql)) {
             return "ok";
@@ -56,11 +53,10 @@ class User
     }
 
     // Lista todos los usuarios
-    public static function listar()
-    {
+    public static function listar(){
         $conn = Conexion::conectar();
 
-        $sql = "SELECT id, username, password, created_at, role
+        $sql = "SELECT id, username, password, created_at
                 FROM users
                 ORDER BY username ASC";
 
@@ -76,13 +72,12 @@ class User
     }
 
     // Obtiene un usuario por ID
-    public static function obtenerPorId($id)
-    {
+    public static function obtenerPorId($id){
         $conn = Conexion::conectar();
 
         $id = (int)$id;
 
-        $sql = "SELECT id, username, password, created_at, role
+        $sql = "SELECT id, username, password, created_at
                 FROM users
                 WHERE id=$id
                 LIMIT 1";
@@ -93,13 +88,11 @@ class User
     }
 
     // Crea un usuario desde el panel de administración
-    public static function crear($username, $password, $created_at, $role)
-    {
+    public static function crear($username, $password, $created_at){
         $conn = Conexion::conectar();
 
         $username = $conn->real_escape_string($username);
         $created_at = $conn->real_escape_string($created_at);
-        $role = $conn->real_escape_string($role);
 
         // Validar si el usuario ya existe
         $check = "SELECT id FROM users WHERE username='$username' LIMIT 1";
@@ -112,21 +105,19 @@ class User
         // Encriptar contraseña
         $password = password_hash($password, PASSWORD_BCRYPT);
 
-        $sql = "INSERT INTO users (username, password, created_at, role)
-                VALUES ('$username', '$password', '$created_at', '$role')";
+        $sql = "INSERT INTO users (username, password, created_at)
+                VALUES ('$username', '$password', '$created_at')";
 
         return $conn->query($sql);
     }
 
     // Actualiza un usuario
-    public static function actualizar($id, $username, $password, $created_at, $role)
-    {
+    public static function actualizar($id, $username, $password, $created_at){
         $conn = Conexion::conectar();
 
         $id = (int)$id;
         $username = $conn->real_escape_string($username);
         $created_at = $conn->real_escape_string($created_at);
-        $role = $conn->real_escape_string($role);
 
         if (!empty($password)) {
 
@@ -135,16 +126,14 @@ class User
             $sql = "UPDATE users
                     SET username='$username',
                         password='$password',
-                        created_at='$created_at',
-                        role='$role'
+                        created_at='$created_at'
                     WHERE id=$id";
 
         } else {
 
             $sql = "UPDATE users
                     SET username='$username',
-                        created_at='$created_at',
-                        role='$role'
+                        created_at='$created_at'
                     WHERE id=$id";
         }
 
@@ -152,8 +141,7 @@ class User
     }
 
     // Elimina un usuario
-    public static function eliminar($id)
-    {
+    public static function eliminar($id){
         $conn = Conexion::conectar();
 
         $id = (int)$id;
