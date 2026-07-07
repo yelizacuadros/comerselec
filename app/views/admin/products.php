@@ -34,14 +34,15 @@
                 <a href="index.php?url=admin/productos_crear" class="btn btn-primary">NUEVO PRODUCTO</a>
             </div>
             
-            <table class="admin-table">
+            <table class="admin-table" style="font-size: 12px;">
                 <thead>
                     <tr>
                         <th>ID</th>
                         <th>Categoría</th>
+                        <th>Marca</th>
+                        <th>Proveedor</th>
                         <th>Nombre</th>
                         <th>Precio</th>
-                        <th>Stock</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
@@ -50,9 +51,10 @@
                     <tr>
                         <td><?php echo $p['id']; ?></td>
                         <td><?php echo htmlspecialchars($p['category_name']); ?></td>
+                        <td><?php echo htmlspecialchars($p['marca']); ?></td>
+                        <td><?php echo htmlspecialchars($p['proveedor']); ?></td>
                         <td><?php echo htmlspecialchars($p['name']); ?></td>
                         <td>$<?php echo number_format($p['price'], 2); ?></td>
-                        <td><?php echo $p['stock']; ?></td>
                         <td>
                             <a href="index.php?url=admin/productos_editar&id=<?php echo $p['id']; ?>" class="btn btn-secondary">Editar</a>
                             <a href="index.php?url=admin/productos_eliminar&id=<?php echo $p['id']; ?>" class="btn btn-danger" onclick="return confirm('¿Seguro que deseas eliminar este producto?');">Eliminar</a>

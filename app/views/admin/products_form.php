@@ -47,6 +47,32 @@
                             <?php endforeach; ?>
                         </select>
                     </div>
+                    
+                    <div class="form-group">
+                        <label>Marca:</label>
+                        <select name="id_marca" class="form-control" required>
+                            <option value="">Seleccione una marca</option>
+                            <?php foreach($marcas as $m): ?>
+                                <option value="<?php echo $m['id_marca']; ?>"
+                                    <?php echo (isset($product['id_marca']) && $product['id_marca'] == $m['id_marca']) ? 'selected' : ''; ?>>
+                                    <?php echo htmlspecialchars($m['nombre']); ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Proveedor:</label>
+                        <select name="id_proveedor" class="form-control" required>
+                            <option value="">Seleccione un proveedor</option>
+                            <?php foreach($proveedores as $p): ?>
+                                <option value="<?php echo $p['id_proveedor']; ?>"
+                                    <?php echo (isset($product['id_proveedor']) && $product['id_proveedor'] == $p['id_proveedor']) ? 'selected' : ''; ?>>
+                                    <?php echo htmlspecialchars($p['nombre']); ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
 
                     <div class="form-group">
                         <label>Nombre del Producto:</label>
@@ -62,10 +88,6 @@
                         <div style="flex: 1;">
                             <label>Precio ($):<?php echo (isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'Ventas') ? '<small style="color:red;">(Solo lectura)</small>' : ''; ?></label>
                             <input type="number" step="0.01" min="0" name="price" id="prod_price" class="form-control" value="<?php echo isset($product['price']) ? $product['price'] : ''; ?>" <?php echo (isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'Ventas') ? 'readonly' : 'required'; ?>>
-                        </div>
-                        <div style="flex: 1;">
-                            <label>Stock:</label>
-                            <input type="number" min="0" name="stock" id="prod_stock" class="form-control" value="<?php echo isset($product['stock']) ? $product['stock'] : '0'; ?>" required>
                         </div>
                     </div>
 

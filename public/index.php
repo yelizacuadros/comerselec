@@ -6,6 +6,8 @@ require_once __DIR__ . "/../app/controllers/CategoryController.php";
 require_once __DIR__ . "/../app/controllers/MessageController.php";
 require_once __DIR__ . "/../app/controllers/MarcaController.php";
 require_once __DIR__ . "/../app/controllers/ProveedorController.php";
+require_once __DIR__ . "/../app/controllers/InventarioController.php";
+
 
 $url = $_GET['url'] ?? 'catalogo';
 
@@ -129,6 +131,27 @@ switch ($url) {
     case 'admin/productos_eliminar':
         $productCtrl = new ProductController();
         $productCtrl->eliminar();
+        break;
+    
+    // Inventario
+    case 'admin/inventario':
+        $inventarioCtrl = new InventarioController();
+        $inventarioCtrl->listar();
+        break;
+
+    case 'admin/inventario_crear':
+        $inventarioCtrl = new InventarioController();
+        $inventarioCtrl->crear();
+        break;
+
+    case 'admin/inventario_editar':
+        $inventarioCtrl = new InventarioController();
+        $inventarioCtrl->editar();
+        break;
+
+    case 'admin/inventario_eliminar':
+        $inventarioCtrl = new InventarioController();
+        $inventarioCtrl->eliminar();
         break;
 
     // Usuarios

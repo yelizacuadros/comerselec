@@ -1,19 +1,20 @@
 <?php
 require_once __DIR__ . "/../config/conexion.php";
 
-class Product
+class Inventario
 {
     //lista todos los productos con sus categorias asociadas  
     public static function listar()
     {
         $conn = Conexion::conectar();
 
-        $sql = "SELECT p.id, p.name, p.description, p.price,
-                    p.image_url,
+        $sql = "SELECT i.id_inventario, i.stock,
+                    p.id, p.name, p.description, p.price, p.image_url,
                     c.name AS category_name,
                     m.nombre AS marca,
                     pr.nombre AS proveedor
-                FROM products p
+                FROM inventario i
+                INNER JOIN products p ON i.id_producto = p.id
                 LEFT JOIN categories c ON p.category_id = c.id
                 LEFT JOIN marcas m ON p.id_marca = m.id_marca
                 LEFT JOIN proveedores pr ON p.id_proveedor = pr.id_proveedor
@@ -28,15 +29,13 @@ class Product
 
         return $data;
     }
-
-
     //lista productos filtrados por categoria, mostrando el nombre de la categoria asociada
     public static function listarPorCategoria($category_id)
     {
         $conn = Conexion::conectar();
         $category_id = (int)$category_id;
 
-        $sql = "SELECT p.id, p.name, p.description, p.price,
+        $sql = "SELECT p.id, p.name, p.description, p.price, p.stock,
                     p.image_url,
                     c.name AS category_name,
                     m.nombre AS marca,
@@ -57,10 +56,8 @@ class Product
 
         return $data;
     }
-
-
     //crea un nuevo producto y lo guarda en la base de datos
-    public static function crear($category_id, $id_marca, $id_proveedor, $name, $description, $price, $image_url)
+    public static function crear($category_id, $id_marca, $id_proveedor, $name, $description, $price, $stock, $image_url)
     {
         $conn = Conexion::conectar();
 
@@ -75,29 +72,30 @@ class Product
         $image_url = $conn->real_escape_string($image_url);
 
         $sql = "INSERT INTO products
-        (category_id, id_marca, id_proveedor, name, description, price, image_url)
+        (category_id, id_marca, id_proveedor, name, description, price, stock, image_url)
         VALUES
-        ($category_id, $id_marca, $id_proveedor, '$name', '$description', '$price', '$image_url')";
+        ($category_id, $id_marca, $id_proveedor, '$name', '$description', '$price', $stock, '$image_url')";
 
         return $conn->query($sql);
     }
-
-
     //obtiene un producto por su id, mostrando todos sus detalles
     public static function obtenerPorId($id)
     {
         $conn = Conexion::conectar();
         $id = (int)$id;
 
-        $sql = "SELECT * FROM products WHERE id=$id LIMIT 1";
+        $sql = "SELECT i.id_inventario, i.stock,
+                    p.*
+                FROM inventario i
+                INNER JOIN products p ON i.id_producto = p.id
+                WHERE i.id_inventario=$id
+                LIMIT 1";
         $res = $conn->query($sql);
 
         return $res->fetch_assoc();
     }
-
-
     //actualiza un producto existente con nuevos datos
-    public static function actualizar($id, $category_id, $id_marca, $id_proveedor, $name, $description, $price, $image_url)
+    public static function actualizar($id, $category_id, $id_marca, $id_proveedor, $name, $description, $price, $stock, $image_url)
     {
         $conn = Conexion::conectar();
 
@@ -109,6 +107,7 @@ class Product
         $name = $conn->real_escape_string($name);
         $description = $conn->real_escape_string($description);
         $price = $conn->real_escape_string($price);
+        $stock = (int)$stock;
         $image_url = $conn->real_escape_string($image_url);
 
         $sql = "UPDATE products SET
@@ -118,13 +117,12 @@ class Product
                     name='$name',
                     description='$description',
                     price='$price',
+                    stock=$stock,
                     image_url='$image_url'
                 WHERE id=$id";
 
         return $conn->query($sql);
     }
-
-
     //elimina un producto existente por su id
     public static function eliminar($id)
     {

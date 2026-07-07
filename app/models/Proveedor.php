@@ -98,6 +98,4 @@ class Proveedor
 
         return $conn->query($sql);
     }
-    
-
 }

@@ -14,6 +14,7 @@ CREATE TABLE IF NOT EXISTS categories (
     description TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
 CREATE TABLE IF NOT EXISTS marcas (
     id_marca INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(100) NOT NULL UNIQUE,
@@ -42,6 +43,17 @@ CREATE TABLE IF NOT EXISTS products (
     FOREIGN KEY (category_id) REFERENCES categories(id) ON DELETE CASCADE
 );
 
+CREATE TABLE `messages` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) NOT NULL,
+  `email` varchar(100) NOT NULL,
+  `subject` varchar(150) DEFAULT NULL,
+  `message` text NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+
 
 INSERT INTO users (username, password) VALUES ('admin', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi') ON DUPLICATE KEY UPDATE id=id;
 
@@ -68,3 +80,6 @@ INSERT INTO proveedores (nombre, telefono, correo, direccion) VALUES
 INSERT INTO products (category_id, name, description, price, stock) VALUES (1, 'Cable THHN #12 AWG', 'Rollo de 100 metros color rojo', 45.50, 20) ON DUPLICATE KEY UPDATE id=id;
 INSERT INTO products (category_id, name, description, price, stock) VALUES (2, 'Foco LED 9W', 'Foco LED luz blanca 6500K', 2.50, 150) ON DUPLICATE KEY UPDATE id=id;
 
+INSERT INTO `messages` (`id`, `name`, `email`, `subject`, `message`, `created_at`) VALUES
+(1, 'Roberto', 'roberto@gmail.com', 'Tarea', 'Ya envié mi parte.', '2026-07-05 03:11:43'),
+(2, 'LG_ 004', 'luisangell2099@gmail.com', 'Taller', 'Hola', '2026-07-06 03:59:18');

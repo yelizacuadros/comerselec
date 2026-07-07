@@ -27,7 +27,7 @@
                 </a>
             </li>
             <li><a href="index.php?url=admin/usuarios">Usuario</a></li>
-            <li><a href="index.php?url=admin/panel">Inventario</a></li>
+            <li><a href="index.php?url=admin/inventario">Inventario</a></li>
             <li><a href="index.php?url=admin/panel">Facturación</a></li>
             <li><a href="index.php?url=admin/panel">Ventas</a></li>
             <li><a href="index.php?url=admin/mensajes">Mensajes</a></li>

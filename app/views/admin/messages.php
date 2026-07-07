@@ -18,7 +18,7 @@
                 <li><a href="index.php?url=admin/marcas">Gestión Marcas</a></li>
                 <li><a href="index.php?url=admin/proveedores">Gestión Proveedores</a></li>
                 <li><a href="index.php?url=admin/usuarios">Usuario</a></li>
-                <li><a href="index.php?url=admin/panel">Inventario</a></li>
+                <li><a href="index.php?url=admin/inventario">Inventario</a></li>
                 <li><a href="index.php?url=admin/panel">Facturación</a></li>
                 <li><a href="index.php?url=admin/panel">Ventas</a></li>
                 <li><a href="index.php?url=admin/mensajes" style="background-color: rgba(255,255,255,0.1); color: white;">Mensajes</a></li>
