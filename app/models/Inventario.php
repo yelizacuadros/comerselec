@@ -98,13 +98,14 @@ class Inventario
     }
 
     //elimina un registro del inventario
-    public static function eliminar($id)
-    {
+    public static function eliminar($id){
         $conn = Conexion::conectar();
         $id = (int)$id;
 
-        $sql = "DELETE FROM inventario
-                WHERE id_inventario=$id";
+        $sql = "UPDATE inventario
+                SET stock = 0,
+                    ubicacion = ''
+                WHERE id_inventario = $id";
 
         return $conn->query($sql);
     }

@@ -60,7 +60,7 @@
                             <p class="desc"><?php echo htmlspecialchars($prod['description']); ?></p>
                             <div class="price-stock">
                                 <span class="price">$<?php echo number_format($prod['price'], 2); ?></span>
-                                <span class="stock">Stock: <?php echo $prod['stock']; ?></span>
+                                <span class="stock">Stock: <?php echo $prod['stock'] ?? 0; ?></span>
                             </div>
                         </div>
                     </div>

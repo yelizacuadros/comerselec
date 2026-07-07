@@ -4,23 +4,27 @@ require_once __DIR__ . "/../config/conexion.php";
 class Product
 {
     //lista todos los productos con sus categorias asociadas  
-    public static function listar()
-    {
+    public static function listar(){
         $conn = Conexion::conectar();
 
-        $sql = "SELECT p.id, p.name, p.description, p.price,
+        $sql = "SELECT p.id,
+                    p.name,
+                    p.description,
+                    p.price,
                     p.image_url,
                     c.name AS category_name,
                     m.nombre AS marca,
-                    pr.nombre AS proveedor
+                    pr.nombre AS proveedor,
+                    i.stock
                 FROM products p
                 LEFT JOIN categories c ON p.category_id = c.id
                 LEFT JOIN marcas m ON p.id_marca = m.id_marca
                 LEFT JOIN proveedores pr ON p.id_proveedor = pr.id_proveedor
+                LEFT JOIN inventario i ON p.id = i.id_producto
                 ORDER BY p.name ASC";
 
         $res = $conn->query($sql);
-    // se
+
         $data = [];
         while ($row = $res->fetch_assoc()) {
             $data[] = $row;

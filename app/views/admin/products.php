@@ -38,22 +38,23 @@
                 <thead>
                     <tr>
                         <th>ID</th>
+                        <th>Nombre</th>
                         <th>Categoría</th>
                         <th>Marca</th>
                         <th>Proveedor</th>
-                        <th>Nombre</th>
                         <th>Precio</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
+
                 <tbody>
                     <?php foreach($products as $p): ?>
                     <tr>
                         <td><?php echo $p['id']; ?></td>
+                        <td><?php echo htmlspecialchars($p['name']); ?></td>
                         <td><?php echo htmlspecialchars($p['category_name']); ?></td>
                         <td><?php echo htmlspecialchars($p['marca']); ?></td>
                         <td><?php echo htmlspecialchars($p['proveedor']); ?></td>
-                        <td><?php echo htmlspecialchars($p['name']); ?></td>
                         <td>$<?php echo number_format($p['price'], 2); ?></td>
                         <td>
                             <a href="index.php?url=admin/productos_editar&id=<?php echo $p['id']; ?>" class="btn btn-secondary">Editar</a>
