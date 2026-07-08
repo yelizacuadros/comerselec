@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="css/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
 </head>
-<body style="background-color: #D0E3F0;">
+<body class="about-body">
     <header class="main-header">
         <div class="container header-container">
             <div class="logo">
@@ -18,6 +18,7 @@
                 <ul>
                     <li><a href="index.php?url=catalogo">CATÁLOGO</a></li>
                     <li><a href="index.php?url=nosotros" class="active">NOSOTROS</a></li>
+                    <li><a href="index.php?url=noticias">NOTICIAS</a></li>
                     <li><a href="index.php?url=contacto">CONTACTO</a></li>
                     <li><a href="index.php?url=admin/login" class="btn-login">Iniciar Sesión</a></li>
                 </ul>
@@ -25,20 +26,64 @@
         </div>
     </header>
 
-    <main class="container" style="padding: 40px 0;">
-        <div class="text-container" style="max-width: 800px; margin: 0 auto; background: #fff; padding: 40px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
-            <h2 style="color: var(--primary-color); text-align: center; margin-bottom: 30px;">Acerca de COMERSELEC S.A.</h2>
-            
-            <h3 style="color: var(--secondary-color); margin-top: 20px;">Nuestra Historia</h3>
-            <p style="margin-bottom: 20px; line-height: 1.6;">Nuestra empresa cuenta con 15 años de trayectoria en el mercado, consolidándonos como proveedores de confianza para múltiples empresas constructoras, hospitales, fábricas y más. Nos enorgullece mantener un amplio stock permanente, garantizando entregas directas a obra y a cualquier rincón del país. Además, ofrecemos crédito directo y atención completamente personalizada para adaptarnos a las necesidades de cada proyecto.</p>
-
-            <h3 style="color: var(--secondary-color); margin-top: 20px;">Misión</h3>
-            <p style="margin-bottom: 20px; line-height: 1.6;">Proveer soluciones integrales en materiales eléctricos con agilidad, calidad y precios competitivos, acompañando a nuestros clientes con asesoría personalizada y opciones de financiamiento para asegurar el éxito y continuidad de sus obras.</p>
-
-            <h3 style="color: var(--secondary-color); margin-top: 20px;">Visión</h3>
-            <p style="margin-bottom: 20px; line-height: 1.6;">Consolidarnos como el aliado estratégico más importante a nivel nacional en el suministro de insumos eléctricos, reconocidos por nuestra eficiencia operativa, la robustez de nuestro inventario y la excelencia en el servicio al cliente.</p>
+    <!-- Sección: Nuestra Historia con imagen al lado -->
+    <section class="about-historia-section">
+        <div class="about-historia-text">
+            <h2 class="about-section-title">NUESTRA HISTORIA</h2>
+            <p>Desde nuestros inicios hace más de 15 años, nos hemos dedicado a ser el proveedor de confianza en Ecuador de materiales eléctricos, iluminación, ferretería, gasfitería y automatización. A lo largo de estas décadas, hemos crecido y evolucionado con el mercado, pero siempre manteniendo nuestro compromiso con la calidad, el servicio y la satisfacción de nuestros clientes.</p>
+            <p>Nuestra historia comenzó con una visión clara: ofrecer productos y soluciones de alta calidad que no solo cumplieran con las necesidades de nuestros clientes, sino que las superaran. Desde entonces, nos hemos consolidado como una empresa confiable, con una profunda comprensión de las necesidades del mercado en la industria, empresas y hogares en Ecuador.</p>
         </div>
-    </main>
+        <div class="about-historia-img">
+            <img src="nosotros_historia.png" alt="Bodega COMERSELEC S.A. con materiales eléctricos">
+        </div>
+    </section>
+
+    <!-- Misión y Visión -->
+    <section class="about-mv-section">
+        <div class="container">
+            <div class="about-mv-grid">
+                <div class="about-mv-card">
+                    <div class="about-mv-icon">🎯</div>
+                    <h3>Misión</h3>
+                    <p>Proveer soluciones integrales en materiales eléctricos con agilidad, calidad y precios competitivos, acompañando a nuestros clientes con asesoría personalizada y opciones de financiamiento para asegurar el éxito y continuidad de sus obras.</p>
+                </div>
+                <div class="about-mv-card">
+                    <div class="about-mv-icon">🚀</div>
+                    <h3>Visión</h3>
+                    <p>Consolidarnos como el aliado estratégico más importante a nivel nacional en el suministro de insumos eléctricos, reconocidos por nuestra eficiencia operativa, la robustez de nuestro inventario y la excelencia en el servicio al cliente.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Valores -->
+    <section class="about-values-section">
+        <div class="container">
+            <h2 class="about-values-title">NUESTROS VALORES</h2>
+            <div class="about-values-grid">
+                <div class="about-value-item">
+                    <span class="about-value-icon">⚡</span>
+                    <h4>Calidad</h4>
+                    <p>Trabajamos solo con productos certificados y marcas de reconocida trayectoria en el mercado eléctrico.</p>
+                </div>
+                <div class="about-value-item">
+                    <span class="about-value-icon">🤝</span>
+                    <h4>Compromiso</h4>
+                    <p>Nos comprometemos con cada cliente para cumplir los plazos de entrega y superar sus expectativas.</p>
+                </div>
+                <div class="about-value-item">
+                    <span class="about-value-icon">🛡️</span>
+                    <h4>Confianza</h4>
+                    <p>15 años de trayectoria respaldan nuestra reputación como proveedor confiable en Ecuador.</p>
+                </div>
+                <div class="about-value-item">
+                    <span class="about-value-icon">💡</span>
+                    <h4>Innovación</h4>
+                    <p>Incorporamos constantemente nuevas tecnologías y productos para mantenernos a la vanguardia del sector.</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <footer>
         <div class="container">

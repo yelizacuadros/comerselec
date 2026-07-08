@@ -9,9 +9,13 @@ class PublicController
     public function catalogo()
     {
         $categories = Category::listar();
-        
+
+        $keyword = trim($_GET['q'] ?? '');
         $category_id = $_GET['cat'] ?? null;
-        if ($category_id) {
+
+        if ($keyword !== '') {
+            $products = Product::buscarPorPalabra($keyword);
+        } elseif ($category_id) {
             $products = Product::listarPorCategoria($category_id);
         } else {
             $products = Product::listar();
@@ -23,6 +27,11 @@ class PublicController
     public function nosotros()
     {
         require_once __DIR__ . "/../views/public/about.php";
+    }
+    //muestra la página de noticias eléctricas
+    public function noticias()
+    {
+        require_once __DIR__ . "/../views/public/news.php";
     }
     //muestra el formulario de contacto, guardando el mensaje en la base de datos y mostrando un mensaje de éxito o error 
     public function contacto()

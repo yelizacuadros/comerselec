@@ -63,6 +63,38 @@ class Product
     }
 
 
+    //busca productos por palabra clave en nombre, descripción o categoría
+    public static function buscarPorPalabra($keyword)
+    {
+        $conn = Conexion::conectar();
+        $keyword = '%' . $conn->real_escape_string($keyword) . '%';
+
+        $sql = "SELECT p.id,
+                    p.name,
+                    p.description,
+                    p.price,
+                    p.image_url,
+                    c.name AS category_name,
+                    m.nombre AS marca,
+                    pr.nombre AS proveedor,
+                    i.stock
+                FROM products p
+                LEFT JOIN categories c ON p.category_id = c.id
+                LEFT JOIN marcas m ON p.id_marca = m.id_marca
+                LEFT JOIN proveedores pr ON p.id_proveedor = pr.id_proveedor
+                LEFT JOIN inventario i ON p.id = i.id_producto
+                WHERE p.name LIKE '$keyword'
+                   OR p.description LIKE '$keyword'
+                   OR c.name LIKE '$keyword'
+                ORDER BY p.name ASC";
+
+        $res = $conn->query($sql);
+        $data = [];
+        while ($row = $res->fetch_assoc()) {
+            $data[] = $row;
+        }
+        return $data;
+    }
 
 
     //crea un nuevo producto y lo guarda en la base de datos

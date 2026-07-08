@@ -24,6 +24,11 @@ switch ($url) {
         $publicCtrl->nosotros();
         break;
 
+    case 'noticias':
+        $publicCtrl = new PublicController();
+        $publicCtrl->noticias();
+        break;
+
     case 'contacto':
         $publicCtrl = new PublicController();
         $publicCtrl->contacto();
