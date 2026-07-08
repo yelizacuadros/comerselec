@@ -24,6 +24,7 @@ jobs:
           password: ${{ secrets.FTP_PASSWORD }}
           local-dir: ./
           server-dir: /htdocs/
+          dangerous-clean-slate: true
           # Excluye cosas que no deben ir al servidor público
           exclude: |
             **/.git*
@@ -31,3 +32,4 @@ jobs:
             **/node_modules/**
             .github/**
             .env.example
+            README_DEPLOY.md
