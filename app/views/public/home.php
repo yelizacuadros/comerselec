@@ -10,6 +10,24 @@
 <body>
     <?php $categories = $categories ?? []; ?>
     <?php $products = $products ?? []; ?>
+    <?php
+    $assetUrl = function ($path) {
+        if (empty($path)) {
+            return '';
+        }
+        if (preg_match('/^https?:\\/\\//i', $path)) {
+            return $path;
+        }
+        $path = ltrim($path, '/');
+        if (str_starts_with($path, 'img/')) {
+            return '/public/' . $path;
+        }
+        if (str_starts_with($path, 'public/')) {
+            return '/' . $path;
+        }
+        return '/public/' . $path;
+    };
+    ?>
 
     <header class="main-header">
         <div class="container header-container">
@@ -78,7 +96,7 @@
             <?php if(count($products) > 0): ?>
                 <?php foreach($products as $prod): ?>
                     <div class="product-card">
-                        <div class="product-img-placeholder" style="<?php if(!empty($prod['image_url'])) echo 'background-image: url('.htmlspecialchars($prod['image_url']).'); background-size: cover; background-position: center;'; ?>">
+                            <div class="product-img-placeholder" style="<?php if(!empty($prod['image_url'])) echo 'background-image: url('.htmlspecialchars($assetUrl($prod['image_url'])).'); background-size: cover; background-position: center;'; ?>">
                             <?php if(empty($prod['image_url'])): ?>
                                 <span>⚡</span>
                             <?php endif; ?>

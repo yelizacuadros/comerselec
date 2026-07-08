@@ -156,3 +156,15 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
 });
+document.addEventListener('DOMContentLoaded', () => {
+    const addSaleItem = document.getElementById('addSaleItem');
+    const saleItems = document.getElementById('saleItems');
+    const template = document.getElementById('saleItemTemplate');
+
+    if (addSaleItem && saleItems && template) {
+        addSaleItem.addEventListener('click', () => {
+            const clone = template.content.cloneNode(true);
+            saleItems.appendChild(clone);
+        });
+    }
+});

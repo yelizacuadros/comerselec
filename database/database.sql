@@ -93,8 +93,8 @@ ON DUPLICATE KEY UPDATE nombre = nombre;
 
 INSERT INTO products (category_id, id_marca, id_proveedor, name, description, price, image_url)
 VALUES
-(1, 1, 1, 'Cable THHN #12 AWG', 'Rollo de 100 metros color rojo', 45.50, NULL),
-(2, 2, 2, 'Foco LED 9W', 'Foco LED luz blanca 6500K', 2.50, NULL)
+(1, 1, 1, 'Cable THHN #12 AWG', 'Rollo de 100 metros color rojo', 45.50, 'https://images.unsplash.com/photo-1621905252507-b35492cc74b4?auto=format&fit=crop&q=80&w=1200'),
+(2, 2, 2, 'Foco LED 9W', 'Foco LED luz blanca 6500K', 2.50, 'https://images.unsplash.com/photo-1550989460-0adf9ea622e2?auto=format&fit=crop&q=80&w=1200')
 ON DUPLICATE KEY UPDATE name = name;
 
 INSERT INTO inventario (id_producto, stock, ubicacion)
@@ -122,4 +122,23 @@ VALUES
 ('Constructora Quito S.A.', '12 focos LED, 3 breakers, 1 tablero', 185.40, '2026-07-05 10:15:00'),
 ('Carlos Mendoza', '2 rollos de cable THHN #12 AWG', 91.00, '2026-07-06 14:30:00'),
 ('Ferretería San José', '8 interruptores, 6 tomacorrientes', 74.25, '2026-07-07 09:45:00');
+
+
+CREATE TABLE IF NOT EXISTS venta_detalle (
+    id_detalle INT AUTO_INCREMENT PRIMARY KEY,
+    id_venta INT NOT NULL,
+    id_producto INT NOT NULL,
+    cantidad INT NOT NULL,
+    precio_unitario DECIMAL(10,2) NOT NULL,
+    subtotal DECIMAL(10,2) NOT NULL,
+    FOREIGN KEY (id_venta) REFERENCES ventas(id_venta) ON DELETE CASCADE,
+    FOREIGN KEY (id_producto) REFERENCES products(id)
+);
+
+INSERT INTO venta_detalle (id_venta, id_producto, cantidad, precio_unitario, subtotal)
+VALUES
+(1, 1, 2, 45.50, 91.00),
+(2, 1, 1, 45.50, 45.50),
+(2, 2, 5, 2.50, 12.50),
+(3, 2, 4, 2.50, 10.00);
 

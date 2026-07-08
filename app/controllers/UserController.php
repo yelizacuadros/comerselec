@@ -100,7 +100,7 @@ class UserController
         $this->verificarLogin();
         $salesSummary = Venta::resumen();
         $recentSales = Venta::listar(10);
-        $products = Product::listar();
+        $products = Venta::productosDisponibles();
 
         require_once __DIR__ . "/../views/admin/ventas.php";
     }
@@ -197,11 +197,22 @@ class UserController
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $cliente = trim($_POST['cliente'] ?? '');
-            $detalle = trim($_POST['detalle'] ?? '');
-            $total = (float)($_POST['total'] ?? 0);
+            $items = [];
+            $productos = $_POST['producto_id'] ?? [];
+            $cantidades = $_POST['cantidad'] ?? [];
 
-            if ($cliente !== '' && $detalle !== '' && $total > 0) {
-                Venta::crear($cliente, $detalle, $total);
+            foreach ($productos as $index => $productId) {
+                $cantidad = (int)($cantidades[$index] ?? 0);
+                if ((int)$productId > 0 && $cantidad > 0) {
+                    $items[] = [
+                        'id_producto' => (int)$productId,
+                        'cantidad' => $cantidad,
+                    ];
+                }
+            }
+
+            if ($cliente !== '' && !empty($items)) {
+                Venta::crearConDetalle($cliente, $items);
                 header("Location: index.php?url=admin/ventas");
                 exit;
             }

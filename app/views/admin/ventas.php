@@ -46,21 +46,33 @@
 
             <section class="panel-card">
                 <h2>Nueva venta</h2>
-                <form action="index.php?url=admin/ventas_registrar" method="POST" class="simple-form">
-                    <div class="form-grid">
-                        <div class="form-group">
-                            <label>Cliente</label>
-                            <input type="text" name="cliente" class="form-control" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Total</label>
-                            <input type="number" step="0.01" min="0" name="total" class="form-control" required>
-                        </div>
-                    </div>
+                <form action="index.php?url=admin/ventas_registrar" method="POST" class="simple-form" id="ventaForm">
                     <div class="form-group">
-                        <label>Detalle</label>
-                        <textarea name="detalle" class="form-control" rows="4" required placeholder="Ej: 2 focos LED, 1 breaker, 5m de cable"></textarea>
+                        <label>Cliente</label>
+                        <input type="text" name="cliente" class="form-control" required>
                     </div>
+
+                    <div class="sale-items" id="saleItems">
+                        <div class="sale-item-row">
+                            <div class="form-group">
+                                <label>Producto</label>
+                                <select name="producto_id[]" class="form-control" required>
+                                    <option value="">Seleccione un producto</option>
+                                    <?php foreach ($products as $product): ?>
+                                        <option value="<?php echo $product['id']; ?>">
+                                            <?php echo htmlspecialchars($product['name']); ?> - Stock: <?php echo (int)$product['stock']; ?>
+                                        </option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Cantidad</label>
+                                <input type="number" min="1" name="cantidad[]" class="form-control" value="1" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="button" class="btn btn-secondary" id="addSaleItem">Agregar otro producto</button>
                     <button type="submit" class="btn btn-primary">Registrar venta</button>
                 </form>
             </section>
@@ -94,5 +106,25 @@
             </section>
         </main>
     </div>
+    <template id="saleItemTemplate">
+        <div class="sale-item-row">
+            <div class="form-group">
+                <label>Producto</label>
+                <select name="producto_id[]" class="form-control" required>
+                    <option value="">Seleccione un producto</option>
+                    <?php foreach ($products as $product): ?>
+                        <option value="<?php echo $product['id']; ?>">
+                            <?php echo htmlspecialchars($product['name']); ?> - Stock: <?php echo (int)$product['stock']; ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Cantidad</label>
+                <input type="number" min="1" name="cantidad[]" class="form-control" value="1" required>
+            </div>
+        </div>
+    </template>
+    <script src="public/js/main.js"></script>
 </body>
 </html>

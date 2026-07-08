@@ -181,15 +181,18 @@ class Product
     {
         $conn = Conexion::conectar();
 
-        $sql = "SELECT *
-                FROM products
-                WHERE id NOT IN (
-                    SELECT id_producto
-                    FROM inventario
-                )
-                ORDER BY name ASC";
+        $sql = "SELECT p.id, p.name, p.description, p.price, p.image_url,
+                    i.stock, i.ubicacion, c.name AS category_name
+                FROM products p
+                INNER JOIN inventario i ON p.id = i.id_producto
+                LEFT JOIN categories c ON p.category_id = c.id
+                WHERE i.stock > 0
+                ORDER BY p.name ASC";
 
         $res = $conn->query($sql);
+        if (!$res) {
+            return [];
+        }
 
         $data = [];
 

@@ -41,6 +41,27 @@ INSERT INTO ventas (cliente, detalle, total, fecha_venta)
 VALUES
 ('Constructora Quito S.A.', '12 focos LED, 3 breakers, 1 tablero', 185.40, '2026-07-05 10:15:00'),
 ('Carlos Mendoza', '2 rollos de cable THHN #12 AWG', 91.00, '2026-07-06 14:30:00'),
-('Ferretería San José', '8 interruptores, 6 tomacorrientes', 74.25, '2026-07-07 09:45:00')
+('Ferreterï¿½a San Josï¿½', '8 interruptores, 6 tomacorrientes', 74.25, '2026-07-07 09:45:00')
 ON DUPLICATE KEY UPDATE cliente = cliente;
 
+
+CREATE TABLE IF NOT EXISTS venta_detalle (
+    id_detalle INT AUTO_INCREMENT PRIMARY KEY,
+    id_venta INT NOT NULL,
+    id_producto INT NOT NULL,
+    cantidad INT NOT NULL,
+    precio_unitario DECIMAL(10,2) NOT NULL,
+    subtotal DECIMAL(10,2) NOT NULL,
+    FOREIGN KEY (id_venta) REFERENCES ventas(id_venta) ON DELETE CASCADE,
+    FOREIGN KEY (id_producto) REFERENCES products(id)
+);
+
+
+-- 6. Normalizar imÃ¡genes a URLs externas
+UPDATE products
+SET image_url = CASE
+    WHEN LOWER(name) LIKE ''%cable%'' THEN ''https://images.unsplash.com/photo-1621905252507-b35492cc74b4?auto=format&fit=crop&q=80&w=1200''
+    WHEN LOWER(name) LIKE ''%foco%'' OR LOWER(name) LIKE ''%led%'' THEN ''https://images.unsplash.com/photo-1550989460-0adf9ea622e2?auto=format&fit=crop&q=80&w=1200''
+    WHEN LOWER(name) LIKE ''%breaker%'' OR LOWER(name) LIKE ''%interruptor%'' OR LOWER(name) LIKE ''%tablero%'' THEN ''https://images.unsplash.com/photo-1581147036324-c104d49ad5f2?auto=format&fit=crop&q=80&w=1200''
+    ELSE ''https://images.unsplash.com/photo-1498050108023-6c1ef8f2f9b1?auto=format&fit=crop&q=80&w=1200''
+END;

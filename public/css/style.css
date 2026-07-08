@@ -257,6 +257,23 @@ footer {
     gap: 16px;
 }
 
+.sale-items {
+    display: grid;
+    gap: 14px;
+    margin-bottom: 16px;
+}
+
+.sale-item-row {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 16px;
+    align-items: end;
+    padding: 14px;
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    background: #fafcff;
+}
+
 .danger-link {
     color: #f87171 !important;
 }
