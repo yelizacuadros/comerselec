@@ -40,9 +40,7 @@
             <br>
 
             <div class="text-container" style="background:white; border-radius:8px; max-width:600px; margin:0;">
-
-                <form action="index.php?url=<?php echo isset($inventario['id_inventario']) ? 'admin/inventario_editar&id='.$inventario['id_inventario'] : 'admin/inventario_crear'; ?>" method="POST">
-
+                <form action="index.php?url=<?php echo isset($inventario['id_inventario']) ? 'admin/inventario_editar&id='.$inventario['id_inventario'] : 'admin/inventario_crear'; ?>" method="POST" id="inventarioForm">
                     <div class="form-group">
                         <label>Producto:</label>
                         <?php if(isset($inventario['id_inventario'])): ?>
@@ -55,7 +53,7 @@
                                 value="<?php echo $inventario['id_producto']; ?>">
                         <?php else: ?>
 
-                            <select name="id_producto" class="form-control" required>
+                            <select name="id_producto" id="inv_producto" class="form-control" required>
                                 <option value="">Seleccione un producto</option>
                                 <?php foreach($products as $p): ?>
                                     <option value="<?php echo $p['id']; ?>">
@@ -70,6 +68,7 @@
                         <label>Stock:</label>
                         <input
                             type="number"
+                            id="inv_stock"
                             name="stock"
                             min="0"
                             class="form-control"
@@ -81,6 +80,7 @@
                         <label>Ubicación:</label>
                         <input
                             type="text"
+                            id="inv_ubicacion"
                             name="ubicacion"
                             class="form-control"
                             value="<?php echo isset($inventario['ubicacion']) ? htmlspecialchars($inventario['ubicacion']) : ''; ?>"

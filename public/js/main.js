@@ -33,7 +33,6 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     }
 
-
     // Validación de formulario de marca
     const marcaForm = document.getElementById("marcaForm");
     if (marcaForm) {
@@ -100,6 +99,58 @@ document.addEventListener("DOMContentLoaded", function() {
                     "Errores encontrados:\n\n" +
                     errores.join("\n")
                 );
+            }
+        });
+    }
+
+    // Validación de formulario de usuario
+    const usuarioForm = document.getElementById('usuarioForm');
+
+    if (usuarioForm) {
+        usuarioForm.addEventListener('submit', function(e) {
+
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value;
+
+            let errors = [];
+
+            if (username === '')
+                errors.push("El nombre de usuario es obligatorio.");
+
+            if (password.length < 4)
+                errors.push("La contraseña debe tener al menos 4 caracteres.");
+
+            if (errors.length > 0) {
+                e.preventDefault();
+                alert("Errores en el formulario:\n" + errors.join("\n"));
+            }
+        });
+    }
+
+    // Validación de formulario de inventario
+    const inventarioForm = document.getElementById('inventarioForm');
+
+    if (inventarioForm) {
+        inventarioForm.addEventListener('submit', function(e) {
+
+            const producto = document.getElementById('inv_producto');
+            const stock = parseInt(document.getElementById('inv_stock').value);
+            const ubicacion = document.getElementById('inv_ubicacion').value.trim();
+
+            let errors = [];
+
+            if (producto && producto.value === '')
+                errors.push("Debe seleccionar un producto.");
+
+            if (isNaN(stock) || stock < 0)
+                errors.push("El stock debe ser un número positivo.");
+
+            if (ubicacion === '')
+                errors.push("La ubicación es obligatoria.");
+
+            if (errors.length > 0) {
+                e.preventDefault();
+                alert("Errores en el formulario:\n" + errors.join("\n"));
             }
         });
     }
