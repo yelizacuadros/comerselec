@@ -61,7 +61,7 @@
                         id="telefono_proveedor"
                         name="telefono"
                         class="form-control"
-                        maxlength="15"
+                        maxlength="20"
                         value="<?php echo isset($proveedor['telefono']) 
                         ? htmlspecialchars($proveedor['telefono']) 
                         : ''; ?>"

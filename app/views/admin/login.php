@@ -21,12 +21,12 @@
         <form action="index.php?url=admin/login" method="POST" id="loginForm">
             <div class="form-group">
                 <label>Usuario:</label>
-                <input type="text" name="username" id="username" class="form-control" required>
+                <input type="text" name="username" id="username" class="form-control" minlength="3" maxlength="50" required>
             </div>
             <br>
             <div class="form-group">
                 <label>Contraseña:</label>
-                <input type="password" name="password" id="password" class="form-control" required>
+                <input type="password" name="password" id="password" class="form-control" minlength="4" required>
             </div>
             <br>
             <button type="submit" class="btn btn-primary" style="width: 100%;">Ingresar</button>

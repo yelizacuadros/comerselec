@@ -42,23 +42,23 @@
                 </div>
             <?php endif; ?>
 
-            <form action="index.php?url=contacto" method="POST">
+            <form action="index.php?url=contacto" method="POST" id="contactForm">
                 <div class="form-group">
                     <label for="name">Nombre:</label>
-                    <input type="text" id="name" name="name"  class="form-control" required>
+                    <input type="text" id="name" name="name"  class="form-control" minlength="2" maxlength="100" value="<?php echo htmlspecialchars($name ?? ''); ?>" required>
                 </div>
                 <div class="form-group">
                     <label for="email">Correo:</label>
-                    <input type="email" id="email" name="email"  class="form-control" required>
+                    <input type="email" id="email" name="email"  class="form-control" value="<?php echo htmlspecialchars($email ?? ''); ?>" required>
                 </div>
                 <div class="form-group">
                     <label for="subject">Asunto:</label>
-                    <input type="text" id="subject" name="subject"  class="form-control" required>
+                    <input type="text" id="subject" name="subject"  class="form-control" minlength="3" maxlength="150" value="<?php echo htmlspecialchars($subject ?? ''); ?>" required>
                 </div>
                 <div class="form-group">
                     <label for="message">Mensaje:</label>
-                    <textarea id="message" name="message" rows="5"  class="form-control" required 
-                    style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px;"></textarea>
+                    <textarea id="message" name="message" rows="5"  class="form-control" minlength="10" maxlength="2000" required 
+                    style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px;"><?php echo htmlspecialchars($message ?? ''); ?></textarea>
                 </div>
                 
                 <button type="submit" class="btn btn-primary" style="width: 50%; margin: auto; display: block;">Enviar</button>

@@ -1,170 +1,115 @@
 document.addEventListener("DOMContentLoaded", function() {
-    
-    // Validación de formulario de categoría
-    const categoryForm = document.getElementById('categoryForm');
-    if(categoryForm) {
-        categoryForm.addEventListener('submit', function(e) {
-            const name = document.getElementById('cat_name').value.trim();
-            if(name === '') {
-                e.preventDefault();
-                alert('El nombre de la categoría no puede estar vacío.');
-            }
+    const showErrors = (errors) => {
+        alert("Errores encontrados:\n\n" + errors.join("\n"));
+    };
+
+    const bindForm = (id, handler) => {
+        const form = document.getElementById(id);
+        if (form) form.addEventListener('submit', handler);
+    };
+
+    bindForm('categoryForm', function(e) {
+        const name = document.getElementById('cat_name').value.trim();
+        const errors = [];
+        if (!name) errors.push('El nombre de la categoría no puede estar vacío.');
+        if (name.length > 100) errors.push('El nombre de la categoría no puede superar 100 caracteres.');
+        if (errors.length) { e.preventDefault(); showErrors(errors); }
+    });
+
+    bindForm('productForm', function(e) {
+        const errors = [];
+        const name = document.getElementById('prod_name').value.trim();
+        const category = document.getElementById('prod_category').value;
+        const marca = this.querySelector('select[name="id_marca"]').value;
+        const proveedor = this.querySelector('select[name="id_proveedor"]').value;
+        const price = parseFloat(document.getElementById('prod_price').value);
+        const imageUrl = this.querySelector('input[name="image_url"]').value.trim();
+
+        if (!category) errors.push('Debe seleccionar una categoría.');
+        if (!marca) errors.push('Debe seleccionar una marca.');
+        if (!proveedor) errors.push('Debe seleccionar un proveedor.');
+        if (!name) errors.push('El nombre del producto es obligatorio.');
+        if (name.length > 150) errors.push('El nombre del producto no puede superar 150 caracteres.');
+        if (isNaN(price) || price < 0) errors.push('El precio debe ser un número mayor o igual a 0.');
+        if (imageUrl && !/^https?:\/\/.+/i.test(imageUrl)) errors.push('La URL de la imagen debe comenzar con http:// o https://');
+        if (errors.length) { e.preventDefault(); showErrors(errors); }
+    });
+
+    bindForm('marcaForm', function(e) {
+        const nombre = document.getElementById('nombre').value.trim();
+        const descripcion = document.getElementById('descripcion').value.trim();
+        const pais = document.getElementById('pais_origen').value.trim();
+        const errors = [];
+        if (nombre.length < 2) errors.push('El nombre de la marca debe tener al menos 2 caracteres.');
+        if (!descripcion) errors.push('La descripción es obligatoria.');
+        if (!pais) errors.push('El país de origen es obligatorio.');
+        if (errors.length) { e.preventDefault(); showErrors(errors); }
+    });
+
+    bindForm('proveedorForm', function(e) {
+        const nombre = document.getElementById('nombre_proveedor').value.trim();
+        const telefono = document.getElementById('telefono_proveedor').value.trim();
+        const correo = document.getElementById('correo_proveedor').value.trim();
+        const direccion = document.getElementById('direccion_proveedor').value.trim();
+        const errors = [];
+        if (nombre.length < 2) errors.push('El nombre del proveedor debe tener al menos 2 caracteres.');
+        if (!/^[0-9+\-\s()]{7,20}$/.test(telefono)) errors.push('El teléfono debe tener un formato válido.');
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(correo)) errors.push('El correo debe tener un formato válido.');
+        if (!direccion) errors.push('La dirección es obligatoria.');
+        if (errors.length) { e.preventDefault(); showErrors(errors); }
+    });
+
+    bindForm('usuarioForm', function(e) {
+        const username = document.getElementById('username').value.trim();
+        const password = document.getElementById('password').value;
+        const createdAt = document.getElementById('created_at').value;
+        const errors = [];
+        if (username.length < 3) errors.push('El nombre de usuario debe tener al menos 3 caracteres.');
+        if (password.length < 4) errors.push('La contraseña debe tener al menos 4 caracteres.');
+        if (!createdAt) errors.push('La fecha de creación es obligatoria.');
+        if (errors.length) { e.preventDefault(); showErrors(errors); }
+    });
+
+    bindForm('inventarioForm', function(e) {
+        const producto = document.getElementById('inv_producto');
+        const stock = parseInt(document.getElementById('inv_stock').value, 10);
+        const ubicacion = document.getElementById('inv_ubicacion').value.trim();
+        const errors = [];
+        if (producto && producto.value === '') errors.push('Debe seleccionar un producto.');
+        if (isNaN(stock) || stock < 0) errors.push('El stock debe ser un número mayor o igual a 0.');
+        if (!ubicacion) errors.push('La ubicación es obligatoria.');
+        if (errors.length) { e.preventDefault(); showErrors(errors); }
+    });
+
+    bindForm('loginForm', function(e) {
+        const username = document.getElementById('username').value.trim();
+        const password = document.getElementById('password').value;
+        const errors = [];
+        if (username === '') errors.push('El usuario es obligatorio.');
+        if (password === '') errors.push('La contraseña es obligatoria.');
+        if (errors.length) { e.preventDefault(); showErrors(errors); }
+    });
+
+    bindForm('ventaForm', function(e) {
+        const cliente = this.querySelector('input[name="cliente"]').value.trim();
+        const errors = [];
+        if (cliente.length < 3) errors.push('El cliente debe tener al menos 3 caracteres.');
+        const rows = this.querySelectorAll('.sale-item-row');
+        rows.forEach((row) => {
+            const producto = row.querySelector('select[name="producto_id[]"]').value;
+            const cantidad = parseInt(row.querySelector('input[name="cantidad[]"]').value, 10);
+            if (!producto) errors.push('Cada fila debe tener un producto seleccionado.');
+            if (isNaN(cantidad) || cantidad < 1) errors.push('Cada cantidad debe ser mayor o igual a 1.');
         });
-    }
+        if (errors.length) { e.preventDefault(); showErrors(errors); }
+    });
 
-    // Validación de formulario de producto
-    const productForm = document.getElementById('productForm');
-    if(productForm) {
-        productForm.addEventListener('submit', function(e) {
-            const name = document.getElementById('prod_name').value.trim();
-            const category = document.getElementById('prod_category').value;
-            const price = parseFloat(document.getElementById('prod_price').value);
-
-            let errors = [];
-
-            if(name === '') errors.push("El nombre del producto es obligatorio.");
-            if(category === '') errors.push("Debe seleccionar una categoría.");
-            if(isNaN(price) || price < 0) errors.push("El precio debe ser un número positivo.");
-
-            if(errors.length > 0) {
-                e.preventDefault();
-                alert("Errores en el formulario:\n" + errors.join("\n"));
-            }
-        });
-    }
-
-    // Validación de formulario de marca
-    const marcaForm = document.getElementById("marcaForm");
-    if (marcaForm) {
-        marcaForm.addEventListener("submit", function(e) {
-            const nombre = document.getElementById("nombre").value.trim();
-            const descripcion = document.getElementById("descripcion").value.trim();
-            const pais = document.getElementById("pais_origen").value.trim();
-            let errores = [];
-            if(nombre === "") {
-                errores.push("El nombre de la marca es obligatorio.");
-            }
-            if(nombre.length < 2) {
-                errores.push("El nombre de la marca debe tener al menos 2 caracteres.");
-            }
-            if(descripcion === "") {
-                errores.push("La descripción es obligatoria.");
-            }
-            if(pais === "") {
-                errores.push("El país de origen es obligatorio.");
-            }
-            if(errores.length > 0) {
-                e.preventDefault();
-                alert(
-                    "Errores encontrados:\n\n" +
-                    errores.join("\n")
-                );
-            }
-        });
-    }
-
-    // Validación de formulario de proveedor
-    const proveedorForm = document.getElementById("proveedorForm");
-    if (proveedorForm) {
-        proveedorForm.addEventListener("submit", function(e) {
-            const nombre = document.getElementById("nombre_proveedor").value.trim();
-            const telefono = document.getElementById("telefono_proveedor").value.trim();
-            const correo = document.getElementById("correo_proveedor").value.trim();
-            const direccion = document.getElementById("direccion_proveedor").value.trim();
-            let errores = [];
-            if(nombre === "") {
-                errores.push("El nombre del proveedor es obligatorio.");
-            }
-            if(nombre.length < 2) {
-                errores.push("El nombre del proveedor debe tener al menos 2 caracteres.");
-            }
-            if(telefono === "") {
-                errores.push("El teléfono es obligatorio.");
-            }
-            if(!/^[0-9]+$/.test(telefono)) {
-                errores.push("El teléfono solo debe contener números.");
-            }
-            if(correo === "") {
-                errores.push("El correo es obligatorio.");
-            }
-            if(!correo.includes("@")) {
-                errores.push("El correo no tiene un formato válido.");
-            }
-            if(direccion === "") {
-                errores.push("La dirección es obligatoria.");
-            }
-            if(errores.length > 0) {
-                e.preventDefault();
-                alert(
-                    "Errores encontrados:\n\n" +
-                    errores.join("\n")
-                );
-            }
-        });
-    }
-
-    // Validación de formulario de usuario
-    const usuarioForm = document.getElementById('usuarioForm');
-
-    if (usuarioForm) {
-        usuarioForm.addEventListener('submit', function(e) {
-
-            const username = document.getElementById('username').value.trim();
-            const password = document.getElementById('password').value;
-
-            let errors = [];
-
-            if (username === '')
-                errors.push("El nombre de usuario es obligatorio.");
-
-            if (password.length < 4)
-                errors.push("La contraseña debe tener al menos 4 caracteres.");
-
-            if (errors.length > 0) {
-                e.preventDefault();
-                alert("Errores en el formulario:\n" + errors.join("\n"));
-            }
-        });
-    }
-
-    // Validación de formulario de inventario
-    const inventarioForm = document.getElementById('inventarioForm');
-
-    if (inventarioForm) {
-        inventarioForm.addEventListener('submit', function(e) {
-
-            const producto = document.getElementById('inv_producto');
-            const stock = parseInt(document.getElementById('inv_stock').value);
-            const ubicacion = document.getElementById('inv_ubicacion').value.trim();
-
-            let errors = [];
-
-            if (producto && producto.value === '')
-                errors.push("Debe seleccionar un producto.");
-
-            if (isNaN(stock) || stock < 0)
-                errors.push("El stock debe ser un número positivo.");
-
-            if (ubicacion === '')
-                errors.push("La ubicación es obligatoria.");
-
-            if (errors.length > 0) {
-                e.preventDefault();
-                alert("Errores en el formulario:\n" + errors.join("\n"));
-            }
-        });
-    }
-
-});
-document.addEventListener('DOMContentLoaded', () => {
     const addSaleItem = document.getElementById('addSaleItem');
     const saleItems = document.getElementById('saleItems');
     const template = document.getElementById('saleItemTemplate');
-
     if (addSaleItem && saleItems && template) {
         addSaleItem.addEventListener('click', () => {
-            const clone = template.content.cloneNode(true);
-            saleItems.appendChild(clone);
+            saleItems.appendChild(template.content.cloneNode(true));
         });
     }
 });

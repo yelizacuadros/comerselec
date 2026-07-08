@@ -12,10 +12,6 @@ jobs:
       - name: Descargar el código
         uses: actions/checkout@v4
 
-      # Si usas Composer, descomenta este paso para instalar dependencias antes de subir
-      # - name: Instalar dependencias de PHP
-      #   run: composer install --no-dev --optimize-autoloader
-
       - name: Subir archivos vía FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:

@@ -4,7 +4,6 @@ require_once __DIR__ . "/../models/Product.php";
 
 class InventarioController
 {
-    // Constructor que inicia la sesión
     public function __construct()
     {
         if (session_status() === PHP_SESSION_NONE) {
@@ -12,7 +11,6 @@ class InventarioController
         }
     }
 
-    //protege las rutas
     private function verificarLogin()
     {
         if (!isset($_SESSION['user_id'])) {
@@ -21,7 +19,28 @@ class InventarioController
         }
     }
 
-    //lista el inventario
+    private function validarDatos(array $data, bool $requiereProducto = true): array
+    {
+        $errors = [];
+
+        if ($requiereProducto && (empty($data['id_producto']) || !is_numeric($data['id_producto']))) {
+            $errors[] = "Debe seleccionar un producto válido.";
+        }
+
+        if (!isset($data['stock']) || !is_numeric($data['stock']) || (int)$data['stock'] < 0) {
+            $errors[] = "El stock debe ser un número mayor o igual a 0.";
+        }
+
+        $ubicacion = trim((string)($data['ubicacion'] ?? ''));
+        if ($ubicacion === '') {
+            $errors[] = "La ubicación es obligatoria.";
+        } elseif (mb_strlen($ubicacion) > 100) {
+            $errors[] = "La ubicación no puede superar 100 caracteres.";
+        }
+
+        return $errors;
+    }
+
     public function listar()
     {
         $this->verificarLogin();
@@ -29,68 +48,58 @@ class InventarioController
         require_once __DIR__ . "/../views/admin/inventario.php";
     }
 
-    //crea un registro de inventario
     public function crear()
     {
         $this->verificarLogin();
-
+        $error = "";
+        $inventario = [];
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-
-            $id_producto = $_POST['id_producto'] ?? "";
-            $stock = $_POST['stock'] ?? "";
-            $ubicacion = $_POST['ubicacion'] ?? "";
-
-            if (Inventario::crear($id_producto, $stock, $ubicacion)) {
+            $inventario = [
+                'id_producto' => $_POST['id_producto'] ?? '',
+                'stock' => $_POST['stock'] ?? '',
+                'ubicacion' => trim($_POST['ubicacion'] ?? ''),
+            ];
+            $errors = $this->validarDatos($inventario);
+            if (empty($errors) && Inventario::crear($inventario['id_producto'], $inventario['stock'], $inventario['ubicacion'])) {
                 header("Location: index.php?url=admin/inventario");
                 exit;
-            } else {
-                echo "<script>
-                        alert('Este producto ya está registrado en el inventario.');
-                        window.location='index.php?url=admin/inventario_crear';
-                    </script>";
-                exit;
             }
+            $error = implode(" ", $errors ?: ["Este producto ya está registrado en el inventario."]);
         }
-
         $products = Product::listarDisponiblesInventario();
         require_once __DIR__ . "/../views/admin/inventario_form.php";
     }
 
-    //edita un registro
     public function editar()
     {
         $this->verificarLogin();
-
         $id = $_GET['id'] ?? die("ID no encontrado");
-
+        $error = "";
         $inventario = Inventario::obtenerPorId($id);
-
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-
-            $id_producto = $_POST['id_producto'] ?? "";
-            $stock = $_POST['stock'] ?? "";
-            $ubicacion = $_POST['ubicacion'] ?? "";
-
-            if (Inventario::actualizar($id, $id_producto, $stock, $ubicacion)) {
+            $inventario = [
+                'id_producto' => $_POST['id_producto'] ?? '',
+                'stock' => $_POST['stock'] ?? '',
+                'ubicacion' => trim($_POST['ubicacion'] ?? ''),
+            ];
+            $errors = $this->validarDatos($inventario, false);
+            if (empty($errors) && Inventario::actualizar($id, $inventario['id_producto'], $inventario['stock'], $inventario['ubicacion'])) {
                 header("Location: index.php?url=admin/inventario");
                 exit;
             }
+            $error = implode(" ", $errors ?: ["No fue posible actualizar el inventario."]);
         }
-
         $products = Product::listar();
         require_once __DIR__ . "/../views/admin/inventario_form.php";
     }
 
-    //elimina un registro
     public function eliminar()
     {
         $this->verificarLogin();
-
         $id = $_GET['id'] ?? die("ID no encontrado");
-
         Inventario::eliminar($id);
-
         header("Location: index.php?url=admin/inventario");
         exit;
     }
 }
+?>

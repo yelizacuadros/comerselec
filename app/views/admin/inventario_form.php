@@ -65,6 +65,7 @@
                             id="inv_ubicacion"
                             name="ubicacion"
                             class="form-control"
+                            maxlength="100"
                             value="<?php echo isset($inventario['ubicacion']) ? htmlspecialchars($inventario['ubicacion']) : ''; ?>"
                             required>
                     </div>

@@ -20,12 +20,12 @@
                 <form action="index.php?url=<?php echo isset($usuario['id']) ? 'admin/usuarios_editar&id='.$usuario['id'] : 'admin/usuarios_crear'; ?>" method="POST" id="usuarioForm">
                     <div class="form-group">
                         <label>Nombre de Usuario:</label>
-                        <input type="text" name="username" id="username" class="form-control" value="<?php echo isset($usuario['username']) ? htmlspecialchars($usuario['username']) : ''; ?>" required>
+                        <input type="text" name="username" id="username" class="form-control" minlength="3" maxlength="50" value="<?php echo isset($usuario['username']) ? htmlspecialchars($usuario['username']) : ''; ?>" required>
                     </div>
                     <br>
                     <div class="form-group">
                         <label>Contraseña:</label>
-                        <input type="password" name="password" id="password" class="form-control" required>
+                        <input type="password" name="password" id="password" class="form-control" minlength="4" required>
                     </div>
                     <br>
                     <div class="form-group">

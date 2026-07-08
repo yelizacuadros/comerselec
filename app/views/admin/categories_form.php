@@ -19,11 +19,11 @@
                 <form action="index.php?url=<?php echo isset($category['id']) ? 'admin/categorias_editar&id='.$category['id'] : 'admin/categorias_crear'; ?>" method="POST" id="categoryForm">
                     <div class="form-group">
                         <label>Nombre de la Categoría:</label>
-                        <input type="text" name="name" id="cat_name" class="form-control" value="<?php echo isset($category['name']) ? htmlspecialchars($category['name']) : ''; ?>" required>
+                        <input type="text" name="name" id="cat_name" class="form-control" maxlength="100" value="<?php echo isset($category['name']) ? htmlspecialchars($category['name']) : ''; ?>" required>
                     </div>
                     <div class="form-group">
                         <label>Descripción:</label>
-                        <textarea name="description" class="form-control" rows="4"><?php echo isset($category['description']) ? htmlspecialchars($category['description']) : ''; ?></textarea>
+                        <textarea name="description" class="form-control" rows="4" maxlength="255"><?php echo isset($category['description']) ? htmlspecialchars($category['description']) : ''; ?></textarea>
                     </div>
                     <button type="submit" class="btn btn-primary" style="margin: auto; display: block;">Guardar Categoría</button>
                 </form>
