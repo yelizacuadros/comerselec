@@ -1,184 +1,133 @@
 <?php
-require_once __DIR__ . "/../app/controllers/PublicController.php";
-require_once __DIR__ . "/../app/controllers/UserController.php";
-require_once __DIR__ . "/../app/controllers/ProductController.php";
-require_once __DIR__ . "/../app/controllers/CategoryController.php";
-require_once __DIR__ . "/../app/controllers/MessageController.php";
-require_once __DIR__ . "/../app/controllers/MarcaController.php";
-require_once __DIR__ . "/../app/controllers/ProveedorController.php";
-require_once __DIR__ . "/../app/controllers/InventarioController.php";
+error_reporting(E_ALL);
+ini_set('display_errors', '0');
+ini_set('log_errors', '1');
 
+set_exception_handler(function (Throwable $e) {
+    error_log((string) $e);
+    http_response_code(500);
+    echo 'Error interno del servidor.';
+});
+
+spl_autoload_register(function ($class) {
+    $controllerPath = __DIR__ . '/../app/controllers/' . $class . '.php';
+    $modelPath = __DIR__ . '/../app/models/' . $class . '.php';
+
+    if (file_exists($controllerPath)) {
+        require_once $controllerPath;
+        return;
+    }
+
+    if (file_exists($modelPath)) {
+        require_once $modelPath;
+    }
+});
 
 $url = $_GET['url'] ?? 'catalogo';
 
 switch ($url) {
-
-    // Rutas públicas
     case 'catalogo':
-        $publicCtrl = new PublicController();
-        $publicCtrl->catalogo();
+        require_once __DIR__ . '/../app/controllers/PublicController.php';
+        (new PublicController())->catalogo();
         break;
 
     case 'nosotros':
-        $publicCtrl = new PublicController();
-        $publicCtrl->nosotros();
+        require_once __DIR__ . '/../app/controllers/PublicController.php';
+        (new PublicController())->nosotros();
         break;
 
     case 'contacto':
-        $publicCtrl = new PublicController();
-        $publicCtrl->contacto();
+        require_once __DIR__ . '/../app/controllers/PublicController.php';
+        (new PublicController())->contacto();
         break;
 
-    // Autenticación
     case 'admin/login':
-        $userCtrl = new UserController();
-        $userCtrl->iniciarSesion();
-        break;
-
     case 'admin/registro':
-        $userCtrl = new UserController();
-        $userCtrl->registrar();
-        break;
-
     case 'admin/salir':
-        $userCtrl = new UserController();
-        $userCtrl->cerrarSesion();
-        break;
-
     case 'admin/panel':
-        $userCtrl = new UserController();
-        $userCtrl->panelPrincipal();
-        break;
-
-    // Mensajes
-    case 'admin/mensajes':
-        $messageCtrl = new MessageController();
-        $messageCtrl->listar();
-        break;
-
-    // Categorías
-    case 'admin/categorias':
-        $categoryCtrl = new CategoryController();
-        $categoryCtrl->listar();
-        break;
-
-    case 'admin/categorias_crear':
-        $categoryCtrl = new CategoryController();
-        $categoryCtrl->crear();
-        break;
-
-    case 'admin/categorias_editar':
-        $categoryCtrl = new CategoryController();
-        $categoryCtrl->editar();
-        break;
-
-    case 'admin/categorias_eliminar':
-        $categoryCtrl = new CategoryController();
-        $categoryCtrl->eliminar();
-        break;
-    // Marcas
-    case 'admin/marcas':
-        $marcaCtrl = new MarcaController();
-        $marcaCtrl->listar();
-        break;      
-    case 'admin/marcas_crear':
-        $marcaCtrl = new MarcaController();
-        $marcaCtrl->crear();
-        break;
-    case 'admin/marcas_editar':
-        $marcaCtrl = new MarcaController(); 
-        $marcaCtrl->editar();
-        break;
-    case 'admin/marcas_eliminar':
-        $marcaCtrl = new MarcaController();
-        $marcaCtrl->eliminar();
-        break;
-       
-    // Proveedores
-    case 'admin/proveedores':
-        $proveedorCtrl = new ProveedorController();
-        $proveedorCtrl->listar();
-        break;
-    case 'admin/proveedores_crear':
-        $proveedorCtrl = new ProveedorController();
-        $proveedorCtrl->crear();
-        break;
-    case 'admin/proveedores_editar':
-        $proveedorCtrl = new ProveedorController();
-        $proveedorCtrl->editar();
-        break;
-    case 'admin/proveedores_eliminar':
-        $proveedorCtrl = new ProveedorController();
-        $proveedorCtrl->eliminar();
-        break;
-                         
-    // Productos
-    case 'admin/productos':
-        $productCtrl = new ProductController();
-        $productCtrl->listar();
-        break;
-
-    case 'admin/productos_crear':
-        $productCtrl = new ProductController();
-        $productCtrl->crear();
-        break;
-
-    case 'admin/productos_editar':
-        $productCtrl = new ProductController();
-        $productCtrl->editar();
-        break;
-
-    case 'admin/productos_eliminar':
-        $productCtrl = new ProductController();
-        $productCtrl->eliminar();
-        break;
-    
-    // Inventario
-    case 'admin/inventario':
-        $inventarioCtrl = new InventarioController();
-        $inventarioCtrl->listar();
-        break;
-
-    case 'admin/inventario_crear':
-        $inventarioCtrl = new InventarioController();
-        $inventarioCtrl->crear();
-        break;
-
-    case 'admin/inventario_editar':
-        $inventarioCtrl = new InventarioController();
-        $inventarioCtrl->editar();
-        break;
-
-    case 'admin/inventario_eliminar':
-        $inventarioCtrl = new InventarioController();
-        $inventarioCtrl->eliminar();
-        break;
-
-    // Usuarios
     case 'admin/usuarios':
-        $userCtrl = new UserController();
-        $userCtrl->listar();
-        break;
-
     case 'admin/usuarios_crear':
-        $userCtrl = new UserController();
-        $userCtrl->crear();
-        break;
-
     case 'admin/usuarios_editar':
-        $userCtrl = new UserController();
-        $userCtrl->editar();
-        break;
-
     case 'admin/usuarios_eliminar':
+        require_once __DIR__ . '/../app/controllers/UserController.php';
         $userCtrl = new UserController();
-        $userCtrl->eliminar();
+        if ($url === 'admin/login') $userCtrl->iniciarSesion();
+        elseif ($url === 'admin/registro') $userCtrl->registrar();
+        elseif ($url === 'admin/salir') $userCtrl->cerrarSesion();
+        elseif ($url === 'admin/panel') $userCtrl->panelPrincipal();
+        elseif ($url === 'admin/usuarios') $userCtrl->listar();
+        elseif ($url === 'admin/usuarios_crear') $userCtrl->crear();
+        elseif ($url === 'admin/usuarios_editar') $userCtrl->editar();
+        elseif ($url === 'admin/usuarios_eliminar') $userCtrl->eliminar();
         break;
 
-    // Error 404
+    case 'admin/mensajes':
+        require_once __DIR__ . '/../app/controllers/MessageController.php';
+        (new MessageController())->listar();
+        break;
+
+    case 'admin/categorias':
+    case 'admin/categorias_crear':
+    case 'admin/categorias_editar':
+    case 'admin/categorias_eliminar':
+        require_once __DIR__ . '/../app/controllers/CategoryController.php';
+        $categoryCtrl = new CategoryController();
+        if ($url === 'admin/categorias') $categoryCtrl->listar();
+        elseif ($url === 'admin/categorias_crear') $categoryCtrl->crear();
+        elseif ($url === 'admin/categorias_editar') $categoryCtrl->editar();
+        elseif ($url === 'admin/categorias_eliminar') $categoryCtrl->eliminar();
+        break;
+
+    case 'admin/marcas':
+    case 'admin/marcas_crear':
+    case 'admin/marcas_editar':
+    case 'admin/marcas_eliminar':
+        require_once __DIR__ . '/../app/controllers/MarcaController.php';
+        $marcaCtrl = new MarcaController();
+        if ($url === 'admin/marcas') $marcaCtrl->listar();
+        elseif ($url === 'admin/marcas_crear') $marcaCtrl->crear();
+        elseif ($url === 'admin/marcas_editar') $marcaCtrl->editar();
+        elseif ($url === 'admin/marcas_eliminar') $marcaCtrl->eliminar();
+        break;
+
+    case 'admin/proveedores':
+    case 'admin/proveedores_crear':
+    case 'admin/proveedores_editar':
+    case 'admin/proveedores_eliminar':
+        require_once __DIR__ . '/../app/controllers/ProveedorController.php';
+        $proveedorCtrl = new ProveedorController();
+        if ($url === 'admin/proveedores') $proveedorCtrl->listar();
+        elseif ($url === 'admin/proveedores_crear') $proveedorCtrl->crear();
+        elseif ($url === 'admin/proveedores_editar') $proveedorCtrl->editar();
+        elseif ($url === 'admin/proveedores_eliminar') $proveedorCtrl->eliminar();
+        break;
+
+    case 'admin/productos':
+    case 'admin/productos_crear':
+    case 'admin/productos_editar':
+    case 'admin/productos_eliminar':
+        require_once __DIR__ . '/../app/controllers/ProductController.php';
+        $productCtrl = new ProductController();
+        if ($url === 'admin/productos') $productCtrl->listar();
+        elseif ($url === 'admin/productos_crear') $productCtrl->crear();
+        elseif ($url === 'admin/productos_editar') $productCtrl->editar();
+        elseif ($url === 'admin/productos_eliminar') $productCtrl->eliminar();
+        break;
+
+    case 'admin/inventario':
+    case 'admin/inventario_crear':
+    case 'admin/inventario_editar':
+    case 'admin/inventario_eliminar':
+        require_once __DIR__ . '/../app/controllers/InventarioController.php';
+        $inventarioCtrl = new InventarioController();
+        if ($url === 'admin/inventario') $inventarioCtrl->listar();
+        elseif ($url === 'admin/inventario_crear') $inventarioCtrl->crear();
+        elseif ($url === 'admin/inventario_editar') $inventarioCtrl->editar();
+        elseif ($url === 'admin/inventario_eliminar') $inventarioCtrl->eliminar();
+        break;
+
     default:
         http_response_code(404);
-        echo "<h1>404 - Ruta no encontrada</h1>";
+        echo '<h1>404 - Ruta no encontrada</h1>';
         break;
 }
-?>
