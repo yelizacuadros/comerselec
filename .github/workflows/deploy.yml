@@ -3,7 +3,7 @@ name: Despliegue FTP al Host Gratis
 on:
   push:
     branches:
-      - main # O el nombre de tu rama principal
+      - master # O el nombre de tu rama principal
 
 jobs:
   deploy:
