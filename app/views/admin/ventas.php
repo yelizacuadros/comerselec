@@ -11,6 +11,9 @@
     $salesSummary = $salesSummary ?? ['total_ventas' => 0, 'total_facturado' => 0];
     $recentSales = $recentSales ?? [];
     $products = $products ?? [];
+    $flashError = $_SESSION['flash_error'] ?? '';
+    $flashSuccess = $_SESSION['flash_success'] ?? '';
+    unset($_SESSION['flash_error'], $_SESSION['flash_success']);
     ?>
     <div class="admin-layout">
         <?php require_once __DIR__ . '/_sidebar.php'; ?>
@@ -36,10 +39,16 @@
 
             <section class="panel-card">
                 <h2>Nueva venta</h2>
+                <?php if ($flashSuccess): ?>
+                    <div class="sale-toast sale-toast-success" data-auto-hide="true"><?php echo htmlspecialchars($flashSuccess); ?></div>
+                <?php endif; ?>
+                <?php if ($flashError): ?>
+                    <div class="sale-toast sale-toast-error" data-auto-hide="true"><?php echo htmlspecialchars($flashError); ?></div>
+                <?php endif; ?>
                 <form action="index.php?url=admin/ventas_registrar" method="POST" class="simple-form" id="ventaForm">
                     <div class="form-group">
                         <label>Cliente</label>
-                        <input type="text" name="cliente" class="form-control" required>
+                        <input type="text" name="cliente" class="form-control" minlength="3" maxlength="100" required>
                     </div>
 
                     <div class="sale-items" id="saleItems">

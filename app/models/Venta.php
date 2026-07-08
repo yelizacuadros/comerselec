@@ -60,7 +60,7 @@ class Venta
         $cliente = $conn->real_escape_string($cliente);
 
         if (empty($items)) {
-            return false;
+            return ['ok' => false, 'error' => 'Debe agregar al menos un producto.'];
         }
 
         $conn->begin_transaction();
@@ -87,8 +87,9 @@ class Venta
                     throw new Exception('Producto no encontrado');
                 }
 
-                if ((int)$product['stock'] < $cantidad) {
-                    throw new Exception('Stock insuficiente para ' . $product['name']);
+                $stockActual = (int)$product['stock'];
+                if ($stockActual < $cantidad) {
+                    throw new Exception('Stock insuficiente para ' . $product['name'] . '. Disponible: ' . $stockActual);
                 }
 
                 $precio = (float)$product['price'];
@@ -123,6 +124,7 @@ class Venta
                 $res = $stmt->get_result();
                 $product = $res ? $res->fetch_assoc() : null;
                 $stmt->close();
+
                 $precio = (float)($product['price'] ?? 0);
                 $subtotal = $precio * $cantidad;
 
@@ -135,11 +137,11 @@ class Venta
             }
 
             $conn->commit();
-            return true;
+            return ['ok' => true];
         } catch (Throwable $e) {
             $conn->rollback();
             error_log((string)$e);
-            return false;
+            return ['ok' => false, 'error' => $e->getMessage()];
         }
     }
 }

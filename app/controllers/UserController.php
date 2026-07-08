@@ -176,7 +176,14 @@ class UserController
                 }
             }
             if ($cliente !== '' && mb_strlen($cliente) >= 3 && !empty($items)) {
-                Venta::crearConDetalle($cliente, $items);
+                $resultado = Venta::crearConDetalle($cliente, $items);
+                if (!empty($resultado['ok'])) {
+                    $_SESSION['flash_success'] = 'Venta registrada correctamente.';
+                } else {
+                    $_SESSION['flash_error'] = $resultado['error'] ?? 'No se pudo registrar la venta.';
+                }
+            } else {
+                $_SESSION['flash_error'] = 'Complete el cliente y agregue al menos un producto válido.';
             }
             header("Location: index.php?url=admin/ventas");
             exit;

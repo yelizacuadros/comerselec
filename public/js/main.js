@@ -108,8 +108,33 @@ document.addEventListener("DOMContentLoaded", function() {
     const saleItems = document.getElementById('saleItems');
     const template = document.getElementById('saleItemTemplate');
     if (addSaleItem && saleItems && template) {
-        addSaleItem.addEventListener('click', () => {
-            saleItems.appendChild(template.content.cloneNode(true));
+        addSaleItem.addEventListener('click', (event) => {
+            event.preventDefault();
+            const fragment = template.content ? template.content.cloneNode(true) : null;
+            if (fragment) {
+                saleItems.appendChild(fragment);
+            }
         });
+    }
+
+    const saleToast = document.querySelector('.sale-toast[data-auto-hide="true"]');
+    if (saleToast) {
+        saleToast.style.position = 'fixed';
+        saleToast.style.top = '20px';
+        saleToast.style.right = '20px';
+        saleToast.style.zIndex = '9999';
+        saleToast.style.maxWidth = '420px';
+        saleToast.style.padding = '14px 16px';
+        saleToast.style.borderRadius = '10px';
+        saleToast.style.boxShadow = '0 10px 24px rgba(0,0,0,.18)';
+        saleToast.style.color = '#fff';
+        saleToast.style.fontWeight = '600';
+        saleToast.style.background = saleToast.classList.contains('sale-toast-success') ? '#198754' : '#dc3545';
+        saleToast.style.transition = 'opacity .25s ease, transform .25s ease';
+        setTimeout(() => {
+            saleToast.style.opacity = '0';
+            saleToast.style.transform = 'translateY(-8px)';
+            setTimeout(() => saleToast.remove(), 250);
+        }, 3500);
     }
 });
