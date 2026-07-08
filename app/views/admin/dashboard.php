@@ -14,23 +14,7 @@
     $recentSales = $recentSales ?? [];
     ?>
     <div class="admin-layout">
-        <aside class="admin-sidebar">
-            <h2>COMERSELEC<br><span class="sidebar-user"><?php echo isset($_SESSION['username']) ? htmlspecialchars($_SESSION['username']) : 'Admin'; ?></span></h2>
-            <ul class="admin-nav">
-                <li><a href="index.php?url=admin/panel" class="active">Dashboard</a></li>
-                <li><a href="index.php?url=admin/categorias">Gestión Categorías</a></li>
-                <li><a href="index.php?url=admin/productos">Gestión Productos</a></li>
-                <li><a href="index.php?url=admin/marcas">Gestión Marcas</a></li>
-                <li><a href="index.php?url=admin/proveedores">Gestión Proveedores</a></li>
-                <li><a href="index.php?url=admin/usuarios">Usuarios</a></li>
-                <li><a href="index.php?url=admin/inventario">Inventario</a></li>
-                <li><a href="index.php?url=admin/facturacion">Facturación</a></li>
-                <li><a href="index.php?url=admin/ventas">Ventas</a></li>
-                <li><a href="index.php?url=admin/mensajes">Mensajes</a></li>
-                <li><a href="index.php?url=catalogo" target="_blank">Ver Catálogo Público</a></li>
-                <li><a href="index.php?url=admin/salir" class="danger-link">Cerrar Sesión</a></li>
-            </ul>
-        </aside>
+        <?php require_once __DIR__ . '/_sidebar.php'; ?>
 
         <main class="admin-content">
             <div class="admin-header">
