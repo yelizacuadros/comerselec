@@ -13,7 +13,8 @@ class Conexion
         $conn = new mysqli($host, $username, $password, $dbName, $port);
 
         if ($conn->connect_error) {
-            die('Error de conexión: ' . $conn->connect_error);
+            error_log('DB connection failed: ' . $conn->connect_error);
+            die('Error de conexión a la base de datos.');
         }
 
         $conn->set_charset('utf8mb4');

@@ -11,6 +11,9 @@ class Proveedor
                 FROM proveedores 
                 ORDER BY nombre ASC";
         $res = $conn->query($sql);
+        if (!$res) {
+            return [];
+        }
 
         $data = []; 
         while ($row = $res->fetch_assoc()) {
@@ -30,6 +33,9 @@ class Proveedor
                 FROM proveedores 
                 WHERE id_proveedor=$id LIMIT 1";
         $res = $conn->query($sql);
+        if (!$res) {
+            return null;
+        }
 
         return $res->fetch_assoc();
     }

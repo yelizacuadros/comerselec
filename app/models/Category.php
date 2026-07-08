@@ -10,6 +10,9 @@ class Category
 
         $sql = "SELECT id, name, description FROM categories ORDER BY name ASC";
         $res = $conn->query($sql);
+        if (!$res) {
+            return [];
+        }
 
         $data = [];
         while ($row = $res->fetch_assoc()) {
@@ -26,6 +29,9 @@ class Category
 
         $sql = "SELECT id, name, description FROM categories WHERE id=$id LIMIT 1";
         $res = $conn->query($sql);
+        if (!$res) {
+            return null;
+        }
 
         return $res->fetch_assoc();
     }

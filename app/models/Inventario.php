@@ -24,6 +24,9 @@ class Inventario
                 ORDER BY p.name ASC";
 
         $res = $conn->query($sql);
+        if (!$res) {
+            return [];
+        }
 
         $data = [];
         while ($row = $res->fetch_assoc()) {
@@ -46,6 +49,9 @@ class Inventario
                 LIMIT 1";
 
         $res = $conn->query($sql);
+        if (!$res) {
+            return null;
+        }
 
         return $res->fetch_assoc();
     }
@@ -66,6 +72,9 @@ class Inventario
                         LIMIT 1";
 
         $resultado = $conn->query($sqlVerificar);
+        if (!$resultado) {
+            return false;
+        }
 
         if ($resultado->num_rows > 0) {
             return false; // Ya existe
