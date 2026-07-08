@@ -25,13 +25,13 @@
             </div>
             <br>
             <div class="form-group">
-                <label>ContraseÃ±a:</label>
+                <label>Contraseña:</label>
                 <input type="password" name="password" id="password" class="form-control" required>
             </div>
             <br>
             <button type="submit" class="btn btn-primary" style="width: 100%;">Ingresar</button>
             <div class="form-group" style="text-align: center; margin-top: 15px;">
-                <a href="index.php?url=catalogo">Volver al catÃ¡logo</a>
+                <a href="index.php?url=catalogo">Volver al catálogo</a>
             </div>
         </form>
     </div>

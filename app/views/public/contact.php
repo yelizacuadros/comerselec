@@ -12,14 +12,14 @@
         <div class="container header-container">
             <div class="logo">
                 <h1>COMERSELEC S.A.</h1>
-                <p>Materiales ElÃ©ctricos</p>
+                <p>Materiales Eléctricos</p>
             </div>
             <nav class="main-nav">
                 <ul>
-                    <li><a href="index.php?url=catalogo">CATÃLOGO</a></li>
+                    <li><a href="index.php?url=catalogo">CATÁLOGO</a></li>
                     <li><a href="index.php?url=nosotros">NOSOTROS</a></li>
                     <li><a href="index.php?url=contacto" class="active">CONTACTO</a></li>
-                    <li><a href="index.php?url=admin/login" class="btn-login">Iniciar SesiÃ³n</a></li>
+                    <li><a href="index.php?url=admin/login" class="btn-login">Iniciar Sesión</a></li>
                 </ul>
             </nav>
         </div>
@@ -27,8 +27,8 @@
 
     <main class="container" style="padding: 40px 0;">
         <div class="text-container" style="max-width: 600px; margin: 0 auto; background: #fff; padding: 40px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
-            <h2 style="text-align: center; color: var(--primary-color);">ContÃ¡ctanos</h2>
-            <p style="text-align: center; color: #FF5A00; margin-bottom: 20px; font-weight: bold">EnvÃ­a tu mensaje directamente a nuestro equipo de ventas</p> <br> 
+            <h2 style="text-align: center; color: var(--primary-color);">Contáctanos</h2>
+            <p style="text-align: center; color: #FF5A00; margin-bottom: 20px; font-weight: bold">Envía tu mensaje directamente a nuestro equipo de ventas</p> <br> 
             
             <?php if(isset($success) && $success): ?>
                 <div style="background: #d4edda; color: #155724; padding: 15px; border-radius: 4px; margin-bottom: 20px; text-align: center;">
