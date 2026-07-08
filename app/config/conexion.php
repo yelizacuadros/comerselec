@@ -1,21 +1,23 @@
 <?php
-class Conexion{
 
-    public static function conectar(){
+class Conexion
+{
+    public static function conectar()
+    {
+        $host = getenv('DB_HOST') ?: 'localhost';
+        $dbName = getenv('DB_NAME') ?: 'comerselec';
+        $username = getenv('DB_USER') ?: 'root';
+        $password = getenv('DB_PASSWORD') ?: '';
+        $port = (int) (getenv('DB_PORT') ?: 3306);
 
-        $host = "localhost";
-        $db_name = "comerselec";
-        $username = "root";
-        $password = "";
-        $puerto = 3307;
+        $conn = new mysqli($host, $username, $password, $dbName, $port);
 
-        $conn = new mysqli($host, $username, $password, $db_name, $puerto);
-
-        if($conn->connect_error){
-            die("Error de conexión: " . $conn->connect_error);
+        if ($conn->connect_error) {
+            die('Error de conexión: ' . $conn->connect_error);
         }
+
+        $conn->set_charset('utf8mb4');
 
         return $conn;
     }
 }
-

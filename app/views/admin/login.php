@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <title>Login Administrativo - COMERSELEC S.A.</title>
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="public/css/style.css">
 </head>
 <body style="background-color: #D0E3F0;">
     <div class="login-container">
@@ -25,16 +25,16 @@
             </div>
             <br>
             <div class="form-group">
-                <label>Contraseña:</label>
+                <label>ContraseÃ±a:</label>
                 <input type="password" name="password" id="password" class="form-control" required>
             </div>
             <br>
             <button type="submit" class="btn btn-primary" style="width: 100%;">Ingresar</button>
             <div class="form-group" style="text-align: center; margin-top: 15px;">
-                <a href="index.php?url=catalogo">Volver al catálogo</a>
+                <a href="index.php?url=catalogo">Volver al catÃ¡logo</a>
             </div>
         </form>
     </div>
-    <script src="js/main.js"></script>
+    <script src="public/js/main.js"></script>
 </body>
 </html>
