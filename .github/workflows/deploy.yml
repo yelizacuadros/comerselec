@@ -1,0 +1,30 @@
+name: Despliegue FTP al Host Gratis
+
+on:
+  push:
+    branches:
+      - main # O el nombre de tu rama principal
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Descargar el código
+        uses: actions/checkout@v4
+
+      # Si usas Composer, descomenta este paso para instalar dependencias antes de subir
+      # - name: Instalar dependencias de PHP
+      #   run: composer install --no-dev --optimize-autoloader
+
+      - name: Subir archivos vía FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          # Excluye cosas que no deben ir al servidor público
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/node_modules/**
+            .env.example
