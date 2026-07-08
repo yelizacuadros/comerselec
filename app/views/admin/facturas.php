@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
@@ -14,17 +14,17 @@
             <ul class="admin-nav" style="border-top: 3px solid var(--secondary-orange);">
                 <br>
                 <li><a href="index.php?url=admin/panel" style="background-color: rgba(255,255,255,0.1); color: white;">Dashboard</a></li>
-                <li><a href="index.php?url=admin/categorias">GestiÃ³n CategorÃ­as</a></li>
-                <li><a href="index.php?url=admin/productos">GestiÃ³n Productos</a></li>
-                <li><a href="index.php?url=admin/marcas">GestiÃ³n Marcas</a></li> 
-                <li><a href="index.php?url=admin/proveedores">GestiÃ³n Proveedores</a></li>
+                <li><a href="index.php?url=admin/categorias">Gestión Categorías</a></li>
+                <li><a href="index.php?url=admin/productos">Gestión Productos</a></li>
+                <li><a href="index.php?url=admin/marcas">Gestión Marcas</a></li> 
+                <li><a href="index.php?url=admin/proveedores">Gestión Proveedores</a></li>
                 <li><a href="index.php?url=admin/usuarios">Usuario</a></li>
                 <li><a href="index.php?url=admin/inventario">Inventario</a></li>
-                <li><a href="index.php?url=admin/panel">FacturaciÃ³n</a></li> 
+                <li><a href="index.php?url=admin/panel">Facturación</a></li> 
                 <li><a href="index.php?url=admin/panel">Ventas</a></li>
                 <li><a href="index.php?url=admin/mensajes">Mensajes</a></li> 
-                <li><a href="index.php?url=catalogo" target="_blank">Ver CatÃ¡logo PÃºblico</a></li>
-                <li><a href="index.php?url=admin/salir" style="color: #e74c3c;">Cerrar SesiÃ³n</a></li>
+                <li><a href="index.php?url=catalogo" target="_blank">Ver Catálogo Público</a></li>
+                <li><a href="index.php?url=admin/salir" style="color: #e74c3c;">Cerrar Sesión</a></li>
             </ul>
         </aside>
         
@@ -36,7 +36,7 @@
             
             <div class="dashboard-container">
                 <h2>Panel de Control</h2>
-                <p>Bienvenido al sistema de administraciÃ³n.</p><br>
+                <p>Bienvenido al sistema de administración.</p><br>
                 <p><strong>Acceso: Administrador</strong></p>
             </div>
         </main>
