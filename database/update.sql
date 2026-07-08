@@ -26,3 +26,21 @@ UPDATE products SET image_url = 'https://images.unsplash.com/photo-1550989460-0a
 
 -- Cables u otras categorÃ­as por defecto
 UPDATE products SET image_url = 'https://images.unsplash.com/photo-1621905252507-b35492cc74b4?auto=format&fit=crop&q=80&w=400' WHERE category_id NOT IN (2, 3);
+
+-- 5. Crear tabla de ventas simples
+CREATE TABLE IF NOT EXISTS ventas (
+    id_venta INT AUTO_INCREMENT PRIMARY KEY,
+    cliente VARCHAR(150) NOT NULL,
+    detalle TEXT NOT NULL,
+    total DECIMAL(10,2) NOT NULL DEFAULT 0,
+    fecha_venta TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+
+INSERT INTO ventas (cliente, detalle, total, fecha_venta)
+VALUES
+('Constructora Quito S.A.', '12 focos LED, 3 breakers, 1 tablero', 185.40, '2026-07-05 10:15:00'),
+('Carlos Mendoza', '2 rollos de cable THHN #12 AWG', 91.00, '2026-07-06 14:30:00'),
+('Ferretería San José', '8 interruptores, 6 tomacorrientes', 74.25, '2026-07-07 09:45:00')
+ON DUPLICATE KEY UPDATE cliente = cliente;
+

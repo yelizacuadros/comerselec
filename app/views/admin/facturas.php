@@ -2,43 +2,74 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Dashboard Admin - COMERSELEC S.A.</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Facturación - COMERSELEC S.A.</title>
     <link rel="stylesheet" href="public/css/style.css">
 </head>
 <body>
-    <?php $products = $products ?? []; ?>
+    <?php
+    $salesSummary = $salesSummary ?? ['total_ventas' => 0, 'total_facturado' => 0];
+    $recentSales = $recentSales ?? [];
+    ?>
     <div class="admin-layout">
         <aside class="admin-sidebar">
-            <h2>COMERSELEC<br><span style="font-size: 16px; color: var(--light-blue); font-weight: normal;">
-            <?php echo isset($_SESSION['username']) ? htmlspecialchars($_SESSION['username']) : 'Admin'; ?></span></h2>
-            <ul class="admin-nav" style="border-top: 3px solid var(--secondary-orange);">
-                <br>
-                <li><a href="index.php?url=admin/panel" style="background-color: rgba(255,255,255,0.1); color: white;">Dashboard</a></li>
-                <li><a href="index.php?url=admin/categorias">Gestión Categorías</a></li>
-                <li><a href="index.php?url=admin/productos">Gestión Productos</a></li>
-                <li><a href="index.php?url=admin/marcas">Gestión Marcas</a></li> 
-                <li><a href="index.php?url=admin/proveedores">Gestión Proveedores</a></li>
-                <li><a href="index.php?url=admin/usuarios">Usuario</a></li>
-                <li><a href="index.php?url=admin/inventario">Inventario</a></li>
-                <li><a href="index.php?url=admin/panel">Facturación</a></li> 
-                <li><a href="index.php?url=admin/panel">Ventas</a></li>
-                <li><a href="index.php?url=admin/mensajes">Mensajes</a></li> 
-                <li><a href="index.php?url=catalogo" target="_blank">Ver Catálogo Público</a></li>
-                <li><a href="index.php?url=admin/salir" style="color: #e74c3c;">Cerrar Sesión</a></li>
+            <h2>COMERSELEC<br><span class="sidebar-user"><?php echo isset($_SESSION['username']) ? htmlspecialchars($_SESSION['username']) : 'Admin'; ?></span></h2>
+            <ul class="admin-nav">
+                <li><a href="index.php?url=admin/panel">Dashboard</a></li>
+                <li><a href="index.php?url=admin/facturacion" class="active">Facturación</a></li>
+                <li><a href="index.php?url=admin/ventas">Ventas</a></li>
+                <li><a href="index.php?url=admin/productos">Productos</a></li>
+                <li><a href="index.php?url=admin/usuarios">Usuarios</a></li>
+                <li><a href="index.php?url=admin/salir" class="danger-link">Cerrar Sesión</a></li>
             </ul>
         </aside>
-        
+
         <main class="admin-content">
             <div class="admin-header">
-                <h1>Dashboard</h1>
-                <div>Usuario Activo</div>
+                <div>
+                    <h1>Facturación</h1>
+                    <p>Resumen simple de ventas y facturas</p>
+                </div>
             </div>
-            
-            <div class="dashboard-container">
-                <h2>Panel de Control</h2>
-                <p>Bienvenido al sistema de administración.</p><br>
-                <p><strong>Acceso: Administrador</strong></p>
-            </div>
+
+            <section class="stats-grid">
+                <article class="stat-card">
+                    <span class="stat-label">Ventas</span>
+                    <strong><?php echo (int)$salesSummary['total_ventas']; ?></strong>
+                </article>
+                <article class="stat-card">
+                    <span class="stat-label">Total facturado</span>
+                    <strong>$<?php echo number_format((float)$salesSummary['total_facturado'], 2); ?></strong>
+                </article>
+            </section>
+
+            <section class="panel-card">
+                <h2>Últimos movimientos</h2>
+                <?php if (!empty($recentSales)): ?>
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Cliente</th>
+                                <th>Detalle</th>
+                                <th>Total</th>
+                                <th>Fecha</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($recentSales as $sale): ?>
+                                <tr>
+                                    <td><?php echo htmlspecialchars($sale['cliente']); ?></td>
+                                    <td><?php echo htmlspecialchars($sale['detalle'] ?? ''); ?></td>
+                                    <td>$<?php echo number_format((float)$sale['total'], 2); ?></td>
+                                    <td><?php echo htmlspecialchars($sale['fecha_venta']); ?></td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                <?php else: ?>
+                    <p class="muted">No hay ventas registradas todavía.</p>
+                <?php endif; ?>
+            </section>
         </main>
     </div>
 </body>

@@ -2,6 +2,7 @@
 require_once __DIR__ . "/../models/User.php";
 require_once __DIR__ . "/../models/Product.php";
 require_once __DIR__ . "/../models/Category.php";
+require_once __DIR__ . "/../models/Venta.php";
 
 class UserController
 {
@@ -88,8 +89,29 @@ class UserController
 
         $products = Product::listar();
         $categories = Category::listar();
+        $salesSummary = Venta::resumen();
+        $recentSales = Venta::listar(5);
 
         require_once __DIR__ . "/../views/admin/dashboard.php";
+    }
+
+    public function ventas()
+    {
+        $this->verificarLogin();
+        $salesSummary = Venta::resumen();
+        $recentSales = Venta::listar(10);
+        $products = Product::listar();
+
+        require_once __DIR__ . "/../views/admin/ventas.php";
+    }
+
+    public function facturacion()
+    {
+        $this->verificarLogin();
+        $salesSummary = Venta::resumen();
+        $recentSales = Venta::listar(10);
+
+        require_once __DIR__ . "/../views/admin/facturas.php";
     }
 
     // CRUD Usuarios
@@ -166,6 +188,26 @@ class UserController
         User::eliminar($id);
 
         header("Location: index.php?url=admin/usuarios");
+        exit;
+    }
+
+    public function registrarVenta()
+    {
+        $this->verificarLogin();
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $cliente = trim($_POST['cliente'] ?? '');
+            $detalle = trim($_POST['detalle'] ?? '');
+            $total = (float)($_POST['total'] ?? 0);
+
+            if ($cliente !== '' && $detalle !== '' && $total > 0) {
+                Venta::crear($cliente, $detalle, $total);
+                header("Location: index.php?url=admin/ventas");
+                exit;
+            }
+        }
+
+        header("Location: index.php?url=admin/ventas");
         exit;
     }
 

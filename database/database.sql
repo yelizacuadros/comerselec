@@ -107,3 +107,19 @@ INSERT INTO messages (name, email, subject, message, created_at)
 VALUES
 ('Roberto', 'roberto@gmail.com', 'Tarea', 'Ya envié mi parte.', '2026-07-05 03:11:43'),
 ('LG_004', 'luisangell2099@gmail.com', 'Taller', 'Hola', '2026-07-06 03:59:18');
+
+CREATE TABLE IF NOT EXISTS ventas (
+    id_venta INT AUTO_INCREMENT PRIMARY KEY,
+    cliente VARCHAR(150) NOT NULL,
+    detalle TEXT NOT NULL,
+    total DECIMAL(10,2) NOT NULL DEFAULT 0,
+    fecha_venta TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+
+INSERT INTO ventas (cliente, detalle, total, fecha_venta)
+VALUES
+('Constructora Quito S.A.', '12 focos LED, 3 breakers, 1 tablero', 185.40, '2026-07-05 10:15:00'),
+('Carlos Mendoza', '2 rollos de cable THHN #12 AWG', 91.00, '2026-07-06 14:30:00'),
+('Ferretería San José', '8 interruptores, 6 tomacorrientes', 74.25, '2026-07-07 09:45:00');
+

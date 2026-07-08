@@ -51,6 +51,9 @@ switch ($url) {
     case 'admin/registro':
     case 'admin/salir':
     case 'admin/panel':
+    case 'admin/facturacion':
+    case 'admin/ventas':
+    case 'admin/ventas_registrar':
     case 'admin/usuarios':
     case 'admin/usuarios_crear':
     case 'admin/usuarios_editar':
@@ -61,6 +64,9 @@ switch ($url) {
         elseif ($url === 'admin/registro') $userCtrl->registrar();
         elseif ($url === 'admin/salir') $userCtrl->cerrarSesion();
         elseif ($url === 'admin/panel') $userCtrl->panelPrincipal();
+        elseif ($url === 'admin/facturacion') $userCtrl->facturacion();
+        elseif ($url === 'admin/ventas') $userCtrl->ventas();
+        elseif ($url === 'admin/ventas_registrar') $userCtrl->registrarVenta();
         elseif ($url === 'admin/usuarios') $userCtrl->listar();
         elseif ($url === 'admin/usuarios_crear') $userCtrl->crear();
         elseif ($url === 'admin/usuarios_editar') $userCtrl->editar();
