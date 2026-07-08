@@ -37,6 +37,11 @@ switch ($url) {
         (new PublicController())->nosotros();
         break;
 
+    case 'noticias':
+        require_once __DIR__ . '/../app/controllers/PublicController.php';
+        (new PublicController())->noticias();
+        break;
+
     case 'contacto':
         require_once __DIR__ . '/../app/controllers/PublicController.php';
         (new PublicController())->contacto();

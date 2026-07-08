@@ -21,6 +21,7 @@
                 <ul>
                     <li><a href="index.php?url=catalogo">CATÁLOGO</a></li>
                     <li><a href="index.php?url=nosotros">NOSOTROS</a></li>
+                    <li><a href="index.php?url=noticias">NOTICIAS</a></li>
                     <li><a href="index.php?url=contacto">CONTACTO</a></li>
                     <li><a href="index.php?url=admin/login" class="btn-login">Iniciar Sesión</a></li>
                 </ul>
@@ -35,6 +36,7 @@
     </div>
 
     <main class="container content">
+        <?php $keyword = htmlspecialchars($_GET['q'] ?? ''); ?>
         <aside class="sidebar">
             <h3>Categorías</h3>
             <ul class="category-list">
@@ -44,6 +46,33 @@
                 <?php endforeach; ?>
             </ul>
         </aside>
+
+        <div class="catalog-right">
+            <div class="search-bar-inline">
+                <form class="search-form" method="GET" action="index.php">
+                    <input type="hidden" name="url" value="catalogo">
+                    <div class="search-input-group">
+                        <input
+                            type="text"
+                            name="q"
+                            id="search-input"
+                            class="search-input"
+                            placeholder="Buscar productos: cables, LED, taladro..."
+                            value="<?php echo $keyword; ?>"
+                            autocomplete="off"
+                        >
+                        <button type="submit" class="search-btn">Buscar</button>
+                        <?php if ($keyword): ?>
+                            <a href="index.php?url=catalogo" class="search-clear-btn">×</a>
+                        <?php endif; ?>
+                    </div>
+                </form>
+                <?php if ($keyword): ?>
+                    <p class="search-results-info">
+                        Resultados para: <strong>"<?php echo $keyword; ?>"</strong> - <?php echo count($products); ?> producto(s)
+                    </p>
+                <?php endif; ?>
+            </div>
 
         <section class="products-grid">
             <?php if(count($products) > 0): ?>
@@ -65,10 +94,11 @@
                         </div>
                     </div>
                 <?php endforeach; ?>
-            <?php else: ?>
+                <?php else: ?>
                 <p>No se encontraron productos en esta categoría.</p>
             <?php endif; ?>
         </section>
+        </div>
     </main>
 
     <footer>

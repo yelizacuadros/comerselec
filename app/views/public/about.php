@@ -18,6 +18,7 @@
                 <ul>
                     <li><a href="index.php?url=catalogo">CATÁLOGO</a></li>
                     <li><a href="index.php?url=nosotros" class="active">NOSOTROS</a></li>
+                    <li><a href="index.php?url=noticias">NOTICIAS</a></li>
                     <li><a href="index.php?url=contacto">CONTACTO</a></li>
                     <li><a href="index.php?url=admin/login" class="btn-login">Iniciar Sesión</a></li>
                 </ul>
