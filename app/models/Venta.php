@@ -8,11 +8,11 @@ class Venta
         $conn = Conexion::conectar();
         $limit = (int)$limit;
 
-        $sql = "SELECT v.id_venta, v.cliente, v.total, v.fecha_venta,
+        $sql = "SELECT v.id_venta, v.cliente, v.detalle, v.total, v.fecha_venta,
                        COUNT(d.id_detalle) AS items
                 FROM ventas v
                 LEFT JOIN venta_detalle d ON v.id_venta = d.id_venta
-                GROUP BY v.id_venta
+                GROUP BY v.id_venta, v.cliente, v.detalle, v.total, v.fecha_venta
                 ORDER BY v.fecha_venta DESC
                 LIMIT $limit";
         $res = $conn->query($sql);

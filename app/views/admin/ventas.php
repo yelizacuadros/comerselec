@@ -92,7 +92,7 @@
                             <?php foreach ($recentSales as $sale): ?>
                                 <tr>
                                     <td><?php echo htmlspecialchars($sale['cliente']); ?></td>
-                                    <td><?php echo htmlspecialchars($sale['detalle'] ?? ''); ?></td>
+                                    <td><?php echo nl2br(htmlspecialchars($sale['detalle'] ?? '')); ?></td>
                                     <td>$<?php echo number_format((float)$sale['total'], 2); ?></td>
                                     <td><?php echo htmlspecialchars($sale['fecha_venta']); ?></td>
                                 </tr>
