@@ -34,15 +34,20 @@
                                 name="id_producto"
                                 value="<?php echo $inventario['id_producto']; ?>">
                         <?php else: ?>
-
-                            <select name="id_producto" id="inv_producto" class="form-control" required>
-                                <option value="">Seleccione un producto</option>
-                                <?php foreach($products as $p): ?>
-                                    <option value="<?php echo $p['id']; ?>">
-                                        <?php echo htmlspecialchars($p['name']); ?>
-                                    </option>
-                                <?php endforeach; ?>
-                            </select>
+                            <?php if (!empty($products)): ?>
+                                <select name="id_producto" id="inv_producto" class="form-control" required>
+                                    <option value="">Seleccione un producto</option>
+                                    <?php foreach($products as $p): ?>
+                                        <option value="<?php echo $p['id']; ?>">
+                                            <?php echo htmlspecialchars($p['name']); ?>
+                                        </option>
+                                    <?php endforeach; ?>
+                                </select>
+                            <?php else: ?>
+                                <div class="alert alert-warning">
+                                    No hay productos disponibles para registrar en inventario.
+                                </div>
+                            <?php endif; ?>
                         <?php endif; ?>
                     </div>
 

@@ -82,7 +82,7 @@
                     <p>El mercado de herramientas inalámbricas sigue creciendo gracias a su autonomía, potencia y eficiencia en obra.</p>
                 </div>
             </article>
-        </div>
-    </main>
+            </div>
+        </main>
 </body>
 </html>
